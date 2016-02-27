@@ -42,13 +42,10 @@ public class POSMain {
 	JFrame pos_frame = new JFrame();
 
 	// Menu Bar
-	JLabel lbl_hub = new JLabel();
-	JLabel lbl_restock = new JLabel();
-	JLabel lbl_plans = new JLabel();
-	JLabel lbl_shippments = new JLabel();
-	JLabel lbl_warehouse = new JLabel();
-	JLabel lbl_products = new JLabel();
-	JLabel lbl_workorders = new JLabel();
+	JLabel lbl_transaction = new JLabel();
+	JLabel lbl_payment = new JLabel();
+	JLabel lbl_transfer = new JLabel();
+	JLabel lbl_inventory = new JLabel();
 	JLabel lbl_users = new JLabel();
 
 	// Collapse Button
@@ -281,12 +278,12 @@ public class POSMain {
 
 			{
 				if (data.getHubPermissions() > 0) {
-					lbl_hub.setIcon(new ImageIcon(POSMain.class.getResource("/media/hub.png")));
-					lbl_hub.setBounds(2, increaseY(position), 196, 45); // 2
-					lbl_hub.setBackground(Color.BLACK);
-					addListenerForMenuBar(lbl_hub, 1);
+					lbl_transaction.setIcon(new ImageIcon(POSMain.class.getResource("/media/hub.png")));
+					lbl_transaction.setBounds(2, increaseY(position), 196, 45); // 2
+					lbl_transaction.setBackground(Color.BLACK);
+					addListenerForMenuBar(lbl_transaction, 1);
 
-					side_panel.add(lbl_hub);
+					side_panel.add(lbl_transaction);
 
 					if (first_panel == 0)
 						;
@@ -296,13 +293,13 @@ public class POSMain {
 			}
 			{
 				if (data.getRestockPermissions() > 0) {
-					lbl_restock.setIcon(new ImageIcon(POSMain.class.getResource("/media/restock.png")));
-					lbl_restock.setBounds(2, increaseY(position), 196, 45); // 49
-					lbl_restock.setBackground(Color.BLACK);
+					lbl_payment.setIcon(new ImageIcon(POSMain.class.getResource("/media/restock.png")));
+					lbl_payment.setBounds(2, increaseY(position), 196, 45); // 49
+					lbl_payment.setBackground(Color.BLACK);
 
-					addListenerForMenuBar(lbl_restock, 2);
+					addListenerForMenuBar(lbl_payment, 2);
 
-					side_panel.add(lbl_restock);
+					side_panel.add(lbl_payment);
 
 					if (first_panel == 0)
 						;
@@ -312,11 +309,11 @@ public class POSMain {
 			}
 			{
 				if (data.getPlansPermissions() > 0) {
-					lbl_plans.setIcon(new ImageIcon(POSMain.class.getResource("/media/plans.png")));
-					lbl_plans.setBounds(2, increaseY(position), 196, 45); // 96
-					addListenerForMenuBar(lbl_plans, 3);
+					lbl_transfer.setIcon(new ImageIcon(POSMain.class.getResource("/media/plans.png")));
+					lbl_transfer.setBounds(2, increaseY(position), 196, 45); // 96
+					addListenerForMenuBar(lbl_transfer, 3);
 
-					side_panel.add(lbl_plans);
+					side_panel.add(lbl_transfer);
 
 					if (first_panel == 0)
 						;
@@ -324,57 +321,17 @@ public class POSMain {
 				}
 			}
 			{
-				if (data.getShipmentsPermissions() > 0) {
-					lbl_shippments.setIcon(new ImageIcon(POSMain.class.getResource("/media/shipments.png")));
-					lbl_shippments.setBounds(2, increaseY(position), 196, 45); // 143
-
-					addListenerForMenuBar(lbl_shippments, 4);
-
-					side_panel.add(lbl_shippments);
-
-					if (first_panel == 0)
-						;
-					first_panel = 4;
-				}
-			}
-			{
-				if (data.getWarehousePermissions() > 0) {
-					lbl_warehouse.setIcon(new ImageIcon(POSMain.class.getResource("/media/warehouse.png")));
-					lbl_warehouse.setBounds(2, increaseY(position), 196, 45); // 190
-					addListenerForMenuBar(lbl_warehouse, 5);
-
-					side_panel.add(lbl_warehouse);
-
-					if (first_panel == 0)
-						;
-					first_panel = 5;
-				}
-			}
-			{
 
 				if (data.getProductsPermissions() > 0) {
-					lbl_products.setIcon(new ImageIcon(POSMain.class.getResource("/media/products.png")));
-					lbl_products.setBounds(2, increaseY(position), 196, 45); // 237
-					addListenerForMenuBar(lbl_products, 6);
+					lbl_inventory.setIcon(new ImageIcon(POSMain.class.getResource("/media/products.png")));
+					lbl_inventory.setBounds(2, increaseY(position), 196, 45); // 237
+					addListenerForMenuBar(lbl_inventory, 6);
 
-					side_panel.add(lbl_products);
+					side_panel.add(lbl_inventory);
 
 					if (first_panel == 0)
 						;
 					first_panel = 6;
-				}
-			}
-			{
-				if (data.getWorkOrdersPermissions() > 0) {
-					lbl_workorders.setIcon(new ImageIcon(POSMain.class.getResource("/media/workorders.png")));
-					lbl_workorders.setBounds(2, increaseY(position), 196, 45); // 284
-					addListenerForMenuBar(lbl_workorders, 7);
-
-					side_panel.add(lbl_workorders);
-
-					if (first_panel == 0)
-						;
-					first_panel = 7;
 				}
 			}
 			{
@@ -532,25 +489,16 @@ public class POSMain {
 		if (i != currentPanel) {
 			switch (i) {
 			case 1:
-				lbl_hub.setIcon(new ImageIcon(POSMain.class.getResource("/media/hub.png")));
+				lbl_transaction.setIcon(new ImageIcon(POSMain.class.getResource("/media/hub.png")));
 				break;
 			case 2:
-				lbl_restock.setIcon(new ImageIcon(POSMain.class.getResource("/media/restock.png")));
+				lbl_payment.setIcon(new ImageIcon(POSMain.class.getResource("/media/restock.png")));
 				break;
 			case 3:
-				lbl_plans.setIcon(new ImageIcon(POSMain.class.getResource("/media/plans.png")));
-				break;
-			case 4:
-				lbl_shippments.setIcon(new ImageIcon(POSMain.class.getResource("/media/shipments.png")));
-				break;
-			case 5:
-				lbl_warehouse.setIcon(new ImageIcon(POSMain.class.getResource("/media/warehouse.png")));
+				lbl_transfer.setIcon(new ImageIcon(POSMain.class.getResource("/media/plans.png")));
 				break;
 			case 6:
-				lbl_products.setIcon(new ImageIcon(POSMain.class.getResource("/media/products.png")));
-				break;
-			case 7:
-				lbl_workorders.setIcon(new ImageIcon(POSMain.class.getResource("/media/workorders.png")));
+				lbl_inventory.setIcon(new ImageIcon(POSMain.class.getResource("/media/products.png")));
 				break;
 			case 8:
 				lbl_users.setIcon(new ImageIcon(POSMain.class.getResource("/media/users.png")));
@@ -566,25 +514,16 @@ public class POSMain {
 		if (i != currentPanel) {
 			switch (i) {
 			case 1:
-				lbl_hub.setIcon(new ImageIcon(POSMain.class.getResource("/media/hub_selected.png")));
+				lbl_transaction.setIcon(new ImageIcon(POSMain.class.getResource("/media/hub_selected.png")));
 				break;
 			case 2:
-				lbl_restock.setIcon(new ImageIcon(POSMain.class.getResource("/media/restock_selected.png")));
+				lbl_payment.setIcon(new ImageIcon(POSMain.class.getResource("/media/restock_selected.png")));
 				break;
 			case 3:
-				lbl_plans.setIcon(new ImageIcon(POSMain.class.getResource("/media/plans_selected.png")));
-				break;
-			case 4:
-				lbl_shippments.setIcon(new ImageIcon(POSMain.class.getResource("/media/shipments_selected.png")));
-				break;
-			case 5:
-				lbl_warehouse.setIcon(new ImageIcon(POSMain.class.getResource("/media/warehouse_selected.png")));
+				lbl_transfer.setIcon(new ImageIcon(POSMain.class.getResource("/media/plans_selected.png")));
 				break;
 			case 6:
-				lbl_products.setIcon(new ImageIcon(POSMain.class.getResource("/media/products_selected.png")));
-				break;
-			case 7:
-				lbl_workorders.setIcon(new ImageIcon(POSMain.class.getResource("/media/workorders_selected.png")));
+				lbl_inventory.setIcon(new ImageIcon(POSMain.class.getResource("/media/products_selected.png")));
 				break;
 			case 8:
 				lbl_users.setIcon(new ImageIcon(POSMain.class.getResource("/media/users_selected.png")));
@@ -607,7 +546,7 @@ public class POSMain {
 			switch (i) {
 			case 1:
 				lastPanel = currentPanel;
-				lbl_hub.setIcon(new ImageIcon(POSMain.class.getResource("/media/hub_selected_current.png")));
+				lbl_transaction.setIcon(new ImageIcon(POSMain.class.getResource("/media/hub_selected_current.png")));
 				currentPanel = 1;
 				viewport_panel.removeAll();
 				viewport_panel.validate();
@@ -621,7 +560,7 @@ public class POSMain {
 			case 2:
 				lastPanel = currentPanel;
 
-				lbl_restock
+				lbl_payment
 						.setIcon(new ImageIcon(POSMain.class.getResource("/media/restock_selected_current.png")));
 				currentPanel = 2;
 				viewport_panel.removeAll();
@@ -635,7 +574,7 @@ public class POSMain {
 				return;
 			case 3:
 				lastPanel = currentPanel;
-				lbl_plans.setIcon(new ImageIcon(POSMain.class.getResource("/media/plans_selected_current.png")));
+				lbl_transfer.setIcon(new ImageIcon(POSMain.class.getResource("/media/plans_selected_current.png")));
 				currentPanel = 3;
 
 				viewport_panel.removeAll();
@@ -647,60 +586,15 @@ public class POSMain {
 				scrollPane.repaint();
 
 				return;
-			case 4:
-				lastPanel = currentPanel;
-				lbl_shippments.setIcon(
-						new ImageIcon(POSMain.class.getResource("/media/shipments_selected_current.png")));
-				currentPanel = 4;
-
-				viewport_panel.removeAll();
-				viewport_panel.validate();
-//				viewport_panel.add(new Shipments());
-				viewport_panel.validate();
-				panelControlExit(lastPanel);
-
-				scrollPane.repaint();
-
-				break;
-			case 5:
-				lastPanel = currentPanel;
-				lbl_warehouse.setIcon(
-						new ImageIcon(POSMain.class.getResource("/media/warehouse_selected_current.png")));
-				currentPanel = 5;
-
-				viewport_panel.removeAll();
-				viewport_panel.validate();
-//				viewport_panel.add(new Warehouse());
-				viewport_panel.validate();
-				panelControlExit(lastPanel);
-
-				scrollPane.repaint();
-
-				break;
 			case 6:
 				lastPanel = currentPanel;
-				lbl_products
+				lbl_inventory
 						.setIcon(new ImageIcon(POSMain.class.getResource("/media/products_selected_current.png")));
 				currentPanel = 6;
 
 				viewport_panel.removeAll();
 				viewport_panel.validate();
 //				viewport_panel.add(new Products());
-				viewport_panel.validate();
-				panelControlExit(lastPanel);
-
-				scrollPane.repaint();
-
-				break;
-			case 7:
-				lastPanel = currentPanel;
-				lbl_workorders.setIcon(
-						new ImageIcon(POSMain.class.getResource("/media/workorders_selected_current.png")));
-				currentPanel = 7;
-
-				viewport_panel.removeAll();
-				viewport_panel.validate();
-//				viewport_panel.add(new Work_Orders());
 				viewport_panel.validate();
 				panelControlExit(lastPanel);
 

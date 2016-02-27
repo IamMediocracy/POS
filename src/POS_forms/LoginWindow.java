@@ -1,21 +1,23 @@
 package POS_forms;
 
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.util.HashSet;
+import java.util.Set;
+import java.awt.*;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+
+import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 import POS_classes.UserAccounts;
-import org.eclipse.wb.swing.FocusTraversalOnArray;
-import java.awt.Component;
 
 public class LoginWindow extends UserAccounts {
 	// The frame of the application
@@ -24,6 +26,7 @@ public class LoginWindow extends UserAccounts {
 	// Password field, will change with
 	// regular password field
 	private JPasswordField txt_password;
+	private JTextField txt_username;
 
 	// Login button
 	private JButton btn_login;
@@ -40,6 +43,9 @@ public class LoginWindow extends UserAccounts {
 	private JButton btn_7;
 	private JButton btn_8;
 	private JButton btn_9;
+	private JButton btn_slash;
+
+	Dimension maxsize = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize();
 
 	// The programs main, program starts with a
 	// Login button
@@ -81,104 +87,318 @@ public class LoginWindow extends UserAccounts {
 
 		// Sets the frame constraints
 		frmPOS = new JFrame();
-		frmPOS.setTitle("POS - Login");
+		// frmPOS.setFocusable(false);
+		frmPOS.setLocationRelativeTo(null);
+		frmPOS.setMaximumSize(new Dimension(maxsize.width, maxsize.height));
+		frmPOS.setBounds(0, 0, maxsize.width, maxsize.height);
 		frmPOS.getContentPane().setForeground(Color.WHITE);
 		frmPOS.getContentPane().setBackground(Color.WHITE);
 		frmPOS.getContentPane().setLayout(null);
 
+		txt_username = new JTextField();
+		txt_username.setBounds(frmPOS.getBounds().width / 2 - 150, frmPOS.getBounds().height / 2 - 330, 300, 28);
+		frmPOS.getContentPane().add(txt_username);
+		txt_username.setColumns(10);
+		txt_username.setFocusable(true);
+		// txt_username.requestFocusInWindow();
+		// txt_username.requestFocus();
+
 		// sets the password field constraints
 		txt_password = new JPasswordField();
-		txt_password.setBounds(193, 27, 213, 28);
-		frmPOS.getContentPane().add(txt_password);
+		txt_password.setBounds(frmPOS.getBounds().width / 2 - 150, frmPOS.getBounds().height / 2 - 300, 300, 28);
 		txt_password.setColumns(10);
-		
+		txt_password.setFocusable(true);
+		frmPOS.getContentPane().add(txt_password);
+
 		Font arial20 = new Font("Arial", Font.BOLD, 20);
 		Font arial12 = new Font("Arial", Font.BOLD, 12);
 
 		// The login button
 		btn_1 = new JButton("1");
 		btn_1.setFont(arial20);
-		btn_1.setBounds(146, 59, 100, 100);
+		btn_1.setBounds(frmPOS.getBounds().width / 2 - 150, frmPOS.getBounds().height / 2 - 200, 100, 100);
+		btn_1.setFocusable(false);
 		frmPOS.getContentPane().add(btn_1);
 
 		// The login button
 		btn_2 = new JButton("2");
 		btn_2.setFont(arial20);
-		btn_2.setBounds(247, 59, 100, 100);
+		btn_2.setBounds(frmPOS.getBounds().width / 2 - 50, frmPOS.getBounds().height / 2 - 200, 100, 100);
+		btn_2.setFocusable(false);
 		frmPOS.getContentPane().add(btn_2);
 
 		// The login button
 		btn_3 = new JButton("3");
 		btn_3.setFont(arial20);
-		btn_3.setBounds(346, 59, 100, 100);
+		btn_3.setBounds(frmPOS.getBounds().width / 2 + 50, frmPOS.getBounds().height / 2 - 200, 100, 100);
+		btn_3.setFocusable(false);
 		frmPOS.getContentPane().add(btn_3);
 
 		// The login button
 		btn_4 = new JButton("4");
 		btn_4.setFont(arial20);
-		btn_4.setBounds(146, 158, 100, 100);
+		btn_4.setBounds(frmPOS.getBounds().width / 2 - 150, frmPOS.getBounds().height / 2 - 100, 100, 100);
+		btn_4.setFocusable(false);
 		frmPOS.getContentPane().add(btn_4);
 
 		// The login button
 		btn_5 = new JButton("5");
 		btn_5.setFont(arial20);
-		btn_5.setBounds(50, 150, 100, 100);
+		btn_5.setBounds(frmPOS.getBounds().width / 2 + 50, frmPOS.getBounds().height / 2 - 100, 100, 100);
+		btn_5.setFocusable(false);
 		frmPOS.getContentPane().add(btn_5);
 
 		// The login button
 		btn_6 = new JButton("6");
 		btn_6.setFont(arial20);
-		btn_6.setBounds(346, 158, 100, 100);
+		btn_6.setBounds(frmPOS.getBounds().width / 2 - 50, frmPOS.getBounds().height / 2 - 100, 100, 100);
+		btn_6.setFocusable(false);
 		frmPOS.getContentPane().add(btn_6);
 
 		// The login button
 		btn_7 = new JButton("7");
 		btn_7.setFont(arial20);
-		btn_7.setBounds(146, 257, 100, 100);
+		btn_7.setBounds(frmPOS.getBounds().width / 2 - 150, frmPOS.getBounds().height / 2, 100, 100);
+		btn_7.setFocusable(false);
 		frmPOS.getContentPane().add(btn_7);
 
 		// The login button
 		btn_8 = new JButton("8");
 		btn_8.setFont(arial20);
-		btn_8.setBounds(247, 257, 100, 100);
+		btn_8.setBounds(frmPOS.getBounds().width / 2 - 50, frmPOS.getBounds().height / 2, 100, 100);
+		btn_8.setFocusable(false);
 		frmPOS.getContentPane().add(btn_8);
 
 		// The login button
 		btn_9 = new JButton("9");
 		btn_9.setFont(arial20);
-		btn_9.setBounds(346, 257, 100, 100);
+		btn_9.setBounds(frmPOS.getBounds().width / 2 + 50, frmPOS.getBounds().height / 2, 100, 100);
+		btn_9.setFocusable(false);
 		frmPOS.getContentPane().add(btn_9);
 
 		// The login button
 		btn_backspace = new JButton("Backspace");
 		btn_backspace.setFont(arial12);
-		btn_backspace.setBounds(146, 351, 100, 100);
+		btn_backspace.setBounds(frmPOS.getBounds().width / 2 - 150, frmPOS.getBounds().height / 2 + 100, 100, 100);
+		btn_backspace.setFocusable(false);
 		frmPOS.getContentPane().add(btn_backspace);
 
 		// The login button
 		btn_0 = new JButton("0");
 		btn_0.setFont(arial20);
-		btn_0.setBounds(247, 351, 100, 100);
+		btn_0.setBounds(frmPOS.getBounds().width / 2 - 50, frmPOS.getBounds().height / 2 + 100, 100, 100);
+		btn_0.setFocusable(false);
 		frmPOS.getContentPane().add(btn_0);
 
 		// The login button
 		btn_login = new JButton("Login");
 		btn_login.setFont(arial12);
-		btn_login.setBounds(346, 351, 100, 100);
+		btn_login.setBounds(frmPOS.getBounds().width / 2 + 50, frmPOS.getBounds().height / 2 + 100, 100, 100);
+		btn_login.setFocusable(false);
 		frmPOS.getContentPane().add(btn_login);
+
+		btn_slash = new JButton("/");
+		btn_slash.setFont(arial20);
+		btn_slash.setBounds(frmPOS.getBounds().width / 2 - 50, frmPOS.getBounds().height / 2 + 200, 100, 100);
+		btn_slash.setFocusable(false);
+		frmPOS.getContentPane().add(btn_slash);
 
 		// The label that holds the background
 		JLabel label = new JLabel("");
 		label.setIcon(new ImageIcon(LoginWindow.class.getResource("/media/LoginBackground.png")));
-		label.setBounds(0, 0, 640, 480);
+		label.setBounds(0, 0, maxsize.width, maxsize.height);
 		frmPOS.getContentPane().add(label);
 		frmPOS.setResizable(false);
 
 		// Sets the bounds after calculating the insets
-		Insets i = frmPOS.getInsets();
-		frmPOS.setBounds(100, 100, 640 + i.right + i.left, 480 + i.top + i.bottom);
-		frmPOS.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmPOS.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{txt_password}));
+		frmPOS.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frmPOS.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { txt_username, txt_password }));
+		frmPOS.setUndecorated(true);
+
+		Set<AWTKeyStroke> forwardKeys = txt_username.getFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS);
+		Set newForwardKeys = new HashSet(forwardKeys);
+		newForwardKeys.add(KeyStroke.getKeyStroke(KeyEvent.VK_SLASH, 0));
+		frmPOS.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, newForwardKeys);
+
+		btn_1.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Robot r = new Robot();
+					r.keyPress(KeyEvent.VK_1);
+					
+				} catch (AWTException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		btn_2.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					Robot r;
+					try {
+						r = new Robot();
+						r.keyPress(KeyEvent.VK_2);
+						
+					} catch (AWTException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			}
+		});
+		btn_3.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					Robot r;
+					try {
+						r = new Robot();
+						r.keyPress(KeyEvent.VK_3);
+						
+					} catch (AWTException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			}
+		});
+		btn_4.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					Robot r;
+					try {
+						r = new Robot();
+						r.keyPress(KeyEvent.VK_4);
+						
+					} catch (AWTException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			}
+		});
+		btn_5.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					Robot r;
+					try {
+						r = new Robot();
+						r.keyPress(KeyEvent.VK_5);
+						
+					} catch (AWTException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			}
+		});
+		btn_6.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					Robot r;
+					try {
+						r = new Robot();
+						r.keyPress(KeyEvent.VK_6);
+						
+					} catch (AWTException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			}
+		});
+		btn_7.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					Robot r;
+					try {
+						r = new Robot();
+						r.keyPress(KeyEvent.VK_7);
+						
+					} catch (AWTException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			}
+		});
+		btn_8.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					Robot r;
+					try {
+						r = new Robot();
+						r.keyPress(KeyEvent.VK_8);
+						
+					} catch (AWTException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			}
+		});
+		btn_9.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					Robot r;
+					try {
+						r = new Robot();
+						r.keyPress(KeyEvent.VK_9);
+						
+					} catch (AWTException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			}
+		});
+		btn_0.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					Robot r;
+					try {
+						r = new Robot();
+						r.keyPress(KeyEvent.VK_0);
+						
+					} catch (AWTException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			}
+		});
+		btn_backspace.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					Robot r;
+					try {
+						r = new Robot();
+						r.keyPress(KeyEvent.VK_BACK_SPACE);
+						
+					} catch (AWTException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			}
+		});
+		btn_slash.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					Robot r;
+					try {
+						r = new Robot();
+						r.keyPress(KeyEvent.VK_SLASH);
+					} catch (AWTException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			}
+		});
 
 		// Handles the Login Button click
 		btn_login.addActionListener(new ActionListener() {
@@ -189,46 +409,34 @@ public class LoginWindow extends UserAccounts {
 				}
 			}
 		});
-
+		
 	}
 
 	public boolean checkLogin() {
 
-		// try {
-		// System.out.println("Lines inserted " +
-		// CSV.CSVDatabaseUpdate("src/media/_GET_MERCHANT_LISTINGS_DATA_.csv"));
-		// } catch (IOException | SQLException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-
-		// createTestDB();
-		// TestDB.insertTestData();
-
-//		String username = txt_username.getText();
+		String username = txt_username.getText();
 
 		byte[] password = toBytes(txt_password.getPassword());
 
-//		byte[] salted = toSalt(username, password);
+		byte[] salted = toSalt(username, password);
 
-//		byte[] encryp = toEncrypt(salted);
+		byte[] encryp = toEncrypt(salted);
 
-//		if (compareLogin(username, encryp)) {
-//			return true;
-//		}
+		if (compareLogin(username, encryp)) {
+			return true;
+		}
 		return false;
 
 	}
 
-	// Loads the InStock main window after login validation
+	// Loads the POS main window after login validation
 	// after closing the login window
 	public void loadPOS() {
 
 		frmPOS.dispose();
 
-		// Instock_Main main = new Instock_Main();
-//		POSMain main = new POSMain(txt_username.getText());
-//		main.pos_frame.setVisible(true);
+		POSMain main = new POSMain(txt_username.getText());
+		main.pos_frame.setVisible(true);
 
 	}
 }

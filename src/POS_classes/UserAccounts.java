@@ -15,11 +15,6 @@ import java.util.Random;
 
 public class UserAccounts{
 	
-//	protected static Connection conn;
-//	protected static Statement stmt;
-//	protected static String sql = "";
-//	protected static PreparedStatement pstmt;
-
 	// convert char[] to byte[] for security purposes
 	protected byte[] toBytes(char[] chars) {
 		CharBuffer charBuffer = CharBuffer.wrap(chars);
