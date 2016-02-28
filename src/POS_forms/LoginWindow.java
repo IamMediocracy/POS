@@ -32,6 +32,9 @@ public class LoginWindow extends UserAccounts {
 	private JButton btn_login;
 	// backspace
 	private JButton btn_backspace;
+	// slash key changes focus to next element
+	private JButton btn_slash;
+	
 	// number pad
 	private JButton btn_0;
 	private JButton btn_1;
@@ -43,8 +46,7 @@ public class LoginWindow extends UserAccounts {
 	private JButton btn_7;
 	private JButton btn_8;
 	private JButton btn_9;
-	private JButton btn_slash;
-
+	
 	Dimension maxsize = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize();
 
 	// The programs main, program starts with a
@@ -227,176 +229,176 @@ public class LoginWindow extends UserAccounts {
 				try {
 					Robot r = new Robot();
 					r.keyPress(KeyEvent.VK_1);
-					
+
 				} catch (AWTException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
 		});
-		
+
 		btn_2.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					Robot r;
-					try {
-						r = new Robot();
-						r.keyPress(KeyEvent.VK_2);
-						
-					} catch (AWTException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				Robot r;
+				try {
+					r = new Robot();
+					r.keyPress(KeyEvent.VK_2);
+
+				} catch (AWTException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btn_3.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					Robot r;
-					try {
-						r = new Robot();
-						r.keyPress(KeyEvent.VK_3);
-						
-					} catch (AWTException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				Robot r;
+				try {
+					r = new Robot();
+					r.keyPress(KeyEvent.VK_3);
+
+				} catch (AWTException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btn_4.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					Robot r;
-					try {
-						r = new Robot();
-						r.keyPress(KeyEvent.VK_4);
-						
-					} catch (AWTException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				Robot r;
+				try {
+					r = new Robot();
+					r.keyPress(KeyEvent.VK_4);
+
+				} catch (AWTException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btn_5.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					Robot r;
-					try {
-						r = new Robot();
-						r.keyPress(KeyEvent.VK_5);
-						
-					} catch (AWTException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				Robot r;
+				try {
+					r = new Robot();
+					r.keyPress(KeyEvent.VK_5);
+
+				} catch (AWTException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btn_6.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					Robot r;
-					try {
-						r = new Robot();
-						r.keyPress(KeyEvent.VK_6);
-						
-					} catch (AWTException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				Robot r;
+				try {
+					r = new Robot();
+					r.keyPress(KeyEvent.VK_6);
+
+				} catch (AWTException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btn_7.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					Robot r;
-					try {
-						r = new Robot();
-						r.keyPress(KeyEvent.VK_7);
-						
-					} catch (AWTException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				Robot r;
+				try {
+					r = new Robot();
+					r.keyPress(KeyEvent.VK_7);
+
+				} catch (AWTException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btn_8.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					Robot r;
-					try {
-						r = new Robot();
-						r.keyPress(KeyEvent.VK_8);
-						
-					} catch (AWTException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				Robot r;
+				try {
+					r = new Robot();
+					r.keyPress(KeyEvent.VK_8);
+
+				} catch (AWTException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btn_9.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					Robot r;
-					try {
-						r = new Robot();
-						r.keyPress(KeyEvent.VK_9);
-						
-					} catch (AWTException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				Robot r;
+				try {
+					r = new Robot();
+					r.keyPress(KeyEvent.VK_9);
+
+				} catch (AWTException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btn_0.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					Robot r;
-					try {
-						r = new Robot();
-						r.keyPress(KeyEvent.VK_0);
-						
-					} catch (AWTException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				Robot r;
+				try {
+					r = new Robot();
+					r.keyPress(KeyEvent.VK_0);
+
+				} catch (AWTException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btn_backspace.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					Robot r;
-					try {
-						r = new Robot();
-						r.keyPress(KeyEvent.VK_BACK_SPACE);
-						
-					} catch (AWTException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				Robot r;
+				try {
+					r = new Robot();
+					r.keyPress(KeyEvent.VK_BACK_SPACE);
+
+				} catch (AWTException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btn_slash.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					Robot r;
-					try {
-						r = new Robot();
-						r.keyPress(KeyEvent.VK_SLASH);
-					} catch (AWTException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				Robot r;
+				try {
+					r = new Robot();
+					r.keyPress(KeyEvent.VK_SLASH);
+				} catch (AWTException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
@@ -409,7 +411,7 @@ public class LoginWindow extends UserAccounts {
 				}
 			}
 		});
-		
+
 	}
 
 	public boolean checkLogin() {
