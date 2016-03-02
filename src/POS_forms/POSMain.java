@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -16,19 +17,16 @@ import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 
-import POS_classes.DB;
 import POS_classes.InactivityListener;
 import POS_classes.SessionData;
 
@@ -102,8 +100,6 @@ public class POSMain {
 	@SuppressWarnings("static-access")
 	private void initialize() {
 
-		// Creates a JFrame
-		// instock_frame = new JFrame();
 		pos_frame.setLocationRelativeTo(null);
 		pos_frame.setTitle("POS"); // Title is InStock
 		pos_frame.setMaximumSize(new Dimension(maxsize.width, maxsize.height));
@@ -166,7 +162,7 @@ public class POSMain {
 		comboBox.setBackground(Color.BLUE);
 		// top_panel.add(lbl_logout);
 
-		comboBox.setBounds(maxsize.width-200, 7, 150, 40);
+		comboBox.setBounds(maxsize.width - 200, 7, 150, 40);
 		comboBox.addItem("Options");
 		comboBox.addItem("Logout");
 		// comboBox.setRenderer(new
@@ -249,9 +245,11 @@ public class POSMain {
 
 		panel.add(panel_1);
 
-		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.X_AXIS));
-
 		int first_panel = 0;
+		panel_1.setLayout(new GridLayout(0, 2, 0, 0));
+		side_panel.setMaximumSize(new Dimension(maxsize.width - scrollPane.WIDTH, maxsize.height));
+		side_panel.setMinimumSize(new Dimension(maxsize.width - scrollPane.WIDTH, maxsize.height));
+		side_panel.setPreferredSize(new Dimension(maxsize.width - scrollPane.WIDTH, maxsize.height));
 
 		viewport_panel.setBackground(Color.WHITE);
 		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -268,12 +266,13 @@ public class POSMain {
 
 		// Sets the side panel constraints
 		side_panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		side_panel.setMaximumSize(new Dimension(maxsize.width - scrollPane.WIDTH, maxsize.height));
-		side_panel.setMinimumSize(new Dimension(maxsize.width - scrollPane.WIDTH, maxsize.height));
-		side_panel.setPreferredSize(new Dimension(maxsize.width - scrollPane.WIDTH, maxsize.height));
 		side_panel.setBackground(Color.GRAY);
 		side_panel.setLayout(null);
 		panel_1.add(side_panel);
+
+		JButton btnVoid = new JButton("VOID");
+		btnVoid.setBounds(198, 99, 89, 23);
+		side_panel.add(btnVoid);
 
 		/*
 		 * Each of these blocks creates a label, sets the proper image to the
@@ -600,5 +599,4 @@ public class POSMain {
 		position += 47;
 		return position;
 	}
-
 }
