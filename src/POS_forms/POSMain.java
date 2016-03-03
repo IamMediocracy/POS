@@ -46,9 +46,6 @@ public class POSMain {
 	JLabel lbl_inventory = new JLabel();
 	JLabel lbl_users = new JLabel();
 
-	// Collapse Button
-	JLabel lbl_collapse = new JLabel();
-
 	// Current User -> options
 	JLabel lbl_logout = new JLabel();
 
@@ -65,9 +62,6 @@ public class POSMain {
 
 	// Keeps track of the current tab selected, such as the HUB pane
 	private int currentPanel = 0;
-
-	// Keeps track of the Side Bar's crash status
-	boolean crashed = false;
 
 	// A variable used as a temp variable for tab switching
 	private int lastPanel;
@@ -130,30 +124,6 @@ public class POSMain {
 		top_panel.setBackground(Color.BLUE);
 		top_panel.setLayout(null);
 		panel.add(top_panel);
-
-		// Sets the label to have the push button icon
-		lbl_collapse.setIcon(new ImageIcon(POSMain.class.getResource("/media/collapse_unclicked.png")));
-		lbl_collapse.setBounds(12, -19, 70, 95);
-		top_panel.add(lbl_collapse);
-
-		// Adds a mouse listener for clicks and hovering
-		lbl_collapse.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				collapse_pressed();
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				collapse_select(1);
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				collapse_select(0);
-			}
-		});
 
 		// Sets the label for logout
 		lbl_logout.setIcon(new ImageIcon(POSMain.class.getResource("/media/logout.png")));
@@ -245,11 +215,11 @@ public class POSMain {
 
 		panel.add(panel_1);
 
-		int first_panel = 0;
 		panel_1.setLayout(new GridLayout(0, 2, 0, 0));
-		side_panel.setMaximumSize(new Dimension(maxsize.width - scrollPane.WIDTH, maxsize.height));
-		side_panel.setMinimumSize(new Dimension(maxsize.width - scrollPane.WIDTH, maxsize.height));
-		side_panel.setPreferredSize(new Dimension(maxsize.width - scrollPane.WIDTH, maxsize.height));
+//		side_panel.setMaximumSize(new Dimension(maxsize.width - scrollPane.WIDTH, maxsize.height));
+//		side_panel.setMinimumSize(new Dimension(maxsize.width - scrollPane.WIDTH, maxsize.height));
+//		side_panel.setPreferredSize(new Dimension(maxsize.width - scrollPane.WIDTH, maxsize.height));
+//		side_panel.set
 
 		viewport_panel.setBackground(Color.WHITE);
 		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -269,80 +239,6 @@ public class POSMain {
 		side_panel.setBackground(Color.GRAY);
 		side_panel.setLayout(null);
 		panel_1.add(side_panel);
-
-		JButton btnVoid = new JButton("VOID");
-		btnVoid.setBounds(198, 99, 89, 23);
-		side_panel.add(btnVoid);
-
-		/*
-		 * Each of these blocks creates a label, sets the proper image to the
-		 * label, and then adds a listener, through the addListenerForMenuBar
-		 * method
-		 */
-
-		if (data.getHubPermissions() > 0) {
-			lbl_transaction.setIcon(new ImageIcon(POSMain.class.getResource("/media/hub.png")));
-			lbl_transaction.setBounds(2, increaseY(position), 196, 45); // 2
-			lbl_transaction.setBackground(Color.BLACK);
-			addListenerForMenuBar(lbl_transaction, 1);
-
-			side_panel.add(lbl_transaction);
-
-			if (first_panel == 0)
-				;
-			first_panel = 1;
-
-		}
-		if (data.getRestockPermissions() > 0) {
-			lbl_payment.setIcon(new ImageIcon(POSMain.class.getResource("/media/restock.png")));
-			lbl_payment.setBounds(2, increaseY(position), 196, 45); // 49
-			lbl_payment.setBackground(Color.BLACK);
-
-			addListenerForMenuBar(lbl_payment, 2);
-
-			side_panel.add(lbl_payment);
-
-			if (first_panel == 0)
-				;
-			first_panel = 2;
-
-		}
-		if (data.getPlansPermissions() > 0) {
-			lbl_transfer.setIcon(new ImageIcon(POSMain.class.getResource("/media/plans.png")));
-			lbl_transfer.setBounds(2, increaseY(position), 196, 45); // 96
-			addListenerForMenuBar(lbl_transfer, 3);
-
-			side_panel.add(lbl_transfer);
-
-			if (first_panel == 0)
-				;
-			first_panel = 3;
-		}
-
-		if (data.getProductsPermissions() > 0) {
-			lbl_inventory.setIcon(new ImageIcon(POSMain.class.getResource("/media/products.png")));
-			lbl_inventory.setBounds(2, increaseY(position), 196, 45); // 237
-			addListenerForMenuBar(lbl_inventory, 6);
-
-			side_panel.add(lbl_inventory);
-
-			if (first_panel == 0)
-				;
-			first_panel = 6;
-		}
-		if (data.getUsersPermissions() > 0) {
-			lbl_users.setIcon(new ImageIcon(POSMain.class.getResource("/media/users.png")));
-			lbl_users.setBounds(2, increaseY(position), 196, 45); // 331
-			addListenerForMenuBar(lbl_users, 8);
-
-			side_panel.add(lbl_users);
-
-			if (first_panel == 0)
-				;
-			first_panel = 8;
-		}
-
-		setActivePane(first_panel);
 
 		Action logout = new AbstractAction() {
 			/**
@@ -371,52 +267,6 @@ public class POSMain {
 			break;
 		}
 
-	}
-
-	// Collapses the menu when pressed
-	// uncollapses when already collapsed
-	protected void collapse_pressed() {
-
-		if (crashed) {
-
-			side_panel.setMaximumSize(new Dimension(201, maxsize.height));
-			side_panel.setMinimumSize(new Dimension(199, maxsize.height));
-			side_panel.setPreferredSize(new Dimension(200, maxsize.height));
-
-			lbl_collapse.setIcon(new ImageIcon(POSMain.class.getResource("/media/collapse_unclicked.png")));
-
-			crashed = false;
-			collapse_select(0);
-
-			panel.validate();
-			panel.repaint();
-
-			return;
-		}
-
-		side_panel.setMaximumSize(new Dimension(41, maxsize.height));
-		side_panel.setMinimumSize(new Dimension(39, maxsize.height));
-		side_panel.setPreferredSize(new Dimension(40, maxsize.height));
-
-		lbl_collapse.setIcon(new ImageIcon(POSMain.class.getResource("/media/collapse_clicked.png")));
-
-		crashed = true;
-
-		panel.validate();
-		panel.repaint();
-
-	}
-
-	// Listener for icon change on scroll over exit
-	protected void collapse_select(int i) {
-		if (crashed)
-			return;
-
-		if (i == 1) {
-			lbl_collapse.setIcon(new ImageIcon(POSMain.class.getResource("/media/collapse_highlighted.png")));
-		} else {
-			lbl_collapse.setIcon(new ImageIcon(POSMain.class.getResource("/media/collapse_unclicked.png")));
-		}
 	}
 
 	// Listener for logout to be pressed -- closes frame
