@@ -9,9 +9,9 @@ import java.sql.Statement;
 public class DB {
 
 	protected Connection conn;
-	private String url = "<JDBC DB URL>";
-	private String user = "<DB USER>";
-	private String pass = "<DB PASSWORD>";
+	private String url = "jdbc:mysql://comp305pos.lhup.edu:3306/pos";
+	private String user = "root";
+	private String pass = "Rand0mcomp305";
 
 	protected DB() {
 

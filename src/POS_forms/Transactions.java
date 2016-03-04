@@ -1,6 +1,8 @@
 package POS_forms;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -28,6 +30,27 @@ public class Transactions extends UIPanels {
 		JButton btnVoid = new JButton("VOID");
 		btnVoid.setBounds(this.buttons_panel.getBounds().width / 2 - 150, this.buttons_panel.getBounds().height / 2 - 200, 100, 100);
 		buttons_panel.add(btnVoid);
+		
+		JButton btnPay = new JButton("PAY");
+		buttons_panel.add(btnPay);
+		btnPay.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				buttons_panel.removeAll();
+				JButton btnCash = new JButton("Cash");
+				buttons_panel.add(btnCash);
+				
+				JButton btnCheck = new JButton("Check");
+				buttons_panel.add(btnCheck);
+				
+				JButton btnEft = new JButton("Credit/Debit Card");
+				buttons_panel.add(btnEft);
+				
+				buttons_panel.validate();
+				buttons_panel.repaint();
+			}
+		});
 		JButton btnOverride = new JButton("OVERRIDE");
 		buttons_panel.add(btnOverride);
 

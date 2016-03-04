@@ -181,7 +181,7 @@ public class POSMain {
 		// start listener
 		listener.start();
 		
-		pos_frame.setUndecorated(true);
+		pos_frame.setUndecorated(false);
 
 	}
 
