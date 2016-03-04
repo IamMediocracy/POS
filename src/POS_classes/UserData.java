@@ -19,9 +19,8 @@ public class UserData {
 
 		this.id = id;
 
-		DB DB = new DB();
-
 		try {
+			DB DB = new DB();
 			Statement stmt = DB.conn.createStatement();
 
 			ResultSet results = stmt.executeQuery("SELECT usr_fname FROM Users WHERE usr_id = '" + id + "';");
@@ -47,13 +46,13 @@ public class UserData {
 			} else {
 				System.out.println("Error with permission gathering.");
 			}
+			DB.closeDB();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		DB.closeDB();
 	}
 
 	public String getFirstName() {
@@ -61,9 +60,7 @@ public class UserData {
 	}
 
 	public boolean getCashier() {
-
 		return permissions[0];
-
 	}
 	
 	public boolean getSupervisor(){
@@ -71,7 +68,6 @@ public class UserData {
 	}
 
 	public boolean getManager() {
-
 		return permissions[2];
 	}
 

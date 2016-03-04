@@ -72,8 +72,8 @@ public class POSMain {
 	private final JPanel dynamic_panel = new JPanel();
 
 	// Calls the build function for the JFrame
-	public POSMain(String username) {
-//		data = new SessionData(username);
+	public POSMain(String userID) {
+//		data = new SessionData(userID);
 		initialize();
 
 	}
@@ -85,12 +85,14 @@ public class POSMain {
 	private void initialize() {
 
 		pos_frame.setLocationRelativeTo(null);
-		pos_frame.setTitle("POS"); // Title is InStock
+		pos_frame.setTitle("POS"); // Title is POS
 		pos_frame.setMaximumSize(new Dimension(maxsize.width, maxsize.height));
 		pos_frame.setSize(maxsize);
 		pos_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pos_frame.getContentPane().setLayout(new BoxLayout(pos_frame.getContentPane(), BoxLayout.Y_AXIS));
+		pos_frame.setBounds(0, 0, maxsize.width, maxsize.width);
 
+		
 		// Sets background color
 		panel.setBackground(Color.LIGHT_GRAY);
 
@@ -125,6 +127,7 @@ public class POSMain {
 
 		// Sets the side panel constraints
 		menu_panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		menu_panel.setBounds(0, maxsize.height-maxsize.height/10, maxsize.width/8, maxsize.height-maxsize.height/10);
 		menu_panel.setMaximumSize(new Dimension(maxsize.width/8, maxsize.height));
 		menu_panel.setMinimumSize(new Dimension(maxsize.width/8, maxsize.height));
 		menu_panel.setPreferredSize(new Dimension(maxsize.width/8, maxsize.height));
@@ -181,7 +184,7 @@ public class POSMain {
 		// start listener
 		listener.start();
 		
-		pos_frame.setUndecorated(false);
+		pos_frame.setUndecorated(true);
 
 	}
 

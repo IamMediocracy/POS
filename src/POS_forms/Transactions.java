@@ -24,9 +24,6 @@ public class Transactions extends UIPanels {
 	public Transactions() {
 		super();
 		
-		JButton btnChk = new JButton("chk");
-		buttons_panel.add(btnChk);
-
 		JButton btnVoid = new JButton("VOID");
 		btnVoid.setBounds(this.buttons_panel.getBounds().width / 2 - 150, this.buttons_panel.getBounds().height / 2 - 200, 100, 100);
 		buttons_panel.add(btnVoid);
@@ -78,15 +75,15 @@ public class Transactions extends UIPanels {
 				{ "Nail", "12874562694501", new Integer(20), "5.27"},
 				{ "Screw", "277492973558287364", new Integer(10), "4.79"} };
 		
-		this.table = null;
-		this.table = new JTable(data, columnNames);
-		this.pnl_table.removeAll();
-		this.tablepane = null;
-		this.tablepane = new JScrollPane(this.table);
+//		this.table = null;
+		table = new JTable(data, columnNames);
+		pnl_table.removeAll();
+		tablepane = null;
+		tablepane = new JScrollPane(table);
 		
-		this.pnl_table.add(this.table);
-		this.pnl_table.validate();
-		this.pnl_table.repaint();
+		pnl_table.add(tablepane);
+		pnl_table.validate();
+		pnl_table.repaint();
 	}
 
 }

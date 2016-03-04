@@ -40,11 +40,11 @@ public class AccountValidation{
 	}
 	
 	protected boolean compareLogin(String username, byte[] usrEnteredPassword) {
-		DB DB = new DB();
 		Statement stmt;
 		String sql = "SELECT usr_active FROM Users WHERE usr_id = '" + username + "';";
 		
 		try {
+			DB DB = new DB();
 			stmt = DB.conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			rs.next();
@@ -86,7 +86,6 @@ public class AccountValidation{
 	}
 
 	protected byte[] toSalt(String username, byte[] password) {
-		DB DB = new DB();
 		Statement stmt;
 		String sql = "SELECT usr_salt FROM Users WHERE usr_id = '" + username + "';";
 
@@ -95,6 +94,7 @@ public class AccountValidation{
 		byte[] salt = null;
 
 		try {
+			DB DB = new DB();
 			stmt = DB.conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			rs.next();
