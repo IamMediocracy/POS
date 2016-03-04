@@ -15,11 +15,10 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
-import org.eclipse.wb.swing.FocusTraversalOnArray;
+import POS_classes.FocusTraversalOnArray;
+import POS_classes.AccountValidation;
 
-import POS_classes.UserAccounts;
-
-public class LoginWindow extends UserAccounts {
+public class LoginWindow extends AccountValidation {
 	// The frame of the application
 	public JFrame frmPOS;
 
@@ -405,8 +404,9 @@ public class LoginWindow extends UserAccounts {
 		// Handles the Login Button click
 		btn_login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-
-				if (checkLogin()) {
+				// TODO uncomment after DB is connected
+//				if (checkLogin()) {
+				if(true){
 					loadPOS();
 				}
 			}

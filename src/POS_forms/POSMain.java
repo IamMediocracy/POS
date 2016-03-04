@@ -1,11 +1,9 @@
 package POS_forms;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -15,26 +13,23 @@ import java.util.Stack;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 
 import POS_classes.InactivityListener;
-import POS_classes.SessionData;
+import POS_classes.UserData;
 
 public class POSMain {
 
 	Stack<JFrame> extraWindows = new Stack<JFrame>();
 
-	SessionData data;
+	UserData data;
 
 	// The Frame of the main program
 	JFrame pos_frame = new JFrame();
@@ -46,9 +41,6 @@ public class POSMain {
 	JLabel lbl_inventory = new JLabel();
 	JLabel lbl_users = new JLabel();
 
-	// Current User -> options
-	JLabel lbl_logout = new JLabel();
-
 	// The main encompassing panel, all other elements
 	// Are placed inside this panel
 	JPanel panel = new JPanel();
@@ -58,7 +50,7 @@ public class POSMain {
 	JPanel top_panel = new JPanel();
 
 	// Side Panel, holds the side bar
-	JPanel side_panel = new JPanel();
+	JPanel menu_panel = new JPanel();
 
 	// Keeps track of the current tab selected, such as the HUB pane
 	private int currentPanel = 0;
@@ -76,14 +68,12 @@ public class POSMain {
 
 	Dimension maxsize = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize();
 
-	// Creates the Combo Box for logout and settings.
-	JComboBox<String> comboBox = new JComboBox<String>();
-
 	private int position = 0;
+	private final JPanel dynamic_panel = new JPanel();
 
 	// Calls the build function for the JFrame
 	public POSMain(String username) {
-		data = new SessionData(username);
+//		data = new SessionData(username);
 		initialize();
 
 	}
@@ -97,12 +87,6 @@ public class POSMain {
 		pos_frame.setLocationRelativeTo(null);
 		pos_frame.setTitle("POS"); // Title is InStock
 		pos_frame.setMaximumSize(new Dimension(maxsize.width, maxsize.height));
-		pos_frame.setBounds(0, 0, maxsize.width, maxsize.height); // The
-																	// windowed
-																	// size
-																	// of
-																	// the
-																	// Jframe
 		pos_frame.setSize(maxsize);
 		pos_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pos_frame.getContentPane().setLayout(new BoxLayout(pos_frame.getContentPane(), BoxLayout.Y_AXIS));
@@ -116,134 +100,73 @@ public class POSMain {
 
 		// Sets the constraints for the top_pannel
 
-		top_panel.setMinimumSize(new Dimension(maxsize.width, 53));
-		top_panel.setMaximumSize(new Dimension(maxsize.width, 53));
-		top_panel.setPreferredSize(new Dimension(maxsize.width, 53));
+		top_panel.setMinimumSize(new Dimension(maxsize.width, maxsize.height/10));
+		top_panel.setMaximumSize(new Dimension(maxsize.width, maxsize.height/10));
+		top_panel.setPreferredSize(new Dimension(maxsize.width, maxsize.height/10));
 
 		top_panel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		top_panel.setBackground(Color.BLUE);
+		top_panel.setBackground(Color.GREEN);
 		top_panel.setLayout(null);
 		panel.add(top_panel);
 
-		// Sets the label for logout
-		lbl_logout.setIcon(new ImageIcon(POSMain.class.getResource("/media/logout.png")));
-		lbl_logout.setBounds(1482, 7, 70, 40);
-		comboBox.setForeground(Color.WHITE);
-		comboBox.setBackground(Color.BLUE);
-		// top_panel.add(lbl_logout);
-
-		comboBox.setBounds(maxsize.width - 200, 7, 150, 40);
-		comboBox.addItem("Options");
-		comboBox.addItem("Logout");
-		// comboBox.setRenderer(new
-		// NameSelectionOptions(data.getFirstName()));
-		comboBox.setRenderer(new DefaultListCellRenderer() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void paint(Graphics g) {
-				setBackground(Color.BLUE);
-				setForeground(Color.WHITE);
-				super.paint(g);
-
-			}
-
-			@Override
-			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
-					boolean cellHasFocus) {
-
-				JLabel lbllolol = (JLabel) this;
-
-				if (index == -1 && value == null) {
-					lbllolol.setText(data.getFirstName());
-				} else {
-					setText(value.toString());
-				}
-				return lbllolol;
-
-			}
-		});
-		comboBox.setSelectedIndex(-1);
-
-		top_panel.add(comboBox);
-
-		// ComboBox action listener
-
-		comboBox.addActionListener(new ActionListener() {
-
-			@SuppressWarnings("unchecked")
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JComboBox<String> cb = (JComboBox<String>) e.getSource();
-				String selection = (String) cb.getSelectedItem();
-
-				handleSelection(selection);
-
-				return;
-
-			}
-		});
-
-		/*
-		 * Working on replacement for logut button, EXPERIMENTAL
-		 * options_button.setBounds(1482, 7, 70, 40);
-		 * top_panel.add(options_button);
-		 */
-
-		// Adds a mouse listener for clicks and hovering
-		lbl_logout.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
+//		JButton btn_logout = new JButton(data.getFirstName());
+		JButton btn_logout = new JButton("USER_FName");
+		btn_logout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 				logout_pressed();
 			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				logout_select(1);
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				logout_select(0);
-			}
 		});
+		btn_logout.setBounds(maxsize.width - 150, top_panel.HEIGHT + 20, 89, 23);
+		top_panel.add(btn_logout);
 
 		panel.add(panel_1);
 
-		panel_1.setLayout(new GridLayout(0, 2, 0, 0));
-//		side_panel.setMaximumSize(new Dimension(maxsize.width - scrollPane.WIDTH, maxsize.height));
-//		side_panel.setMinimumSize(new Dimension(maxsize.width - scrollPane.WIDTH, maxsize.height));
-//		side_panel.setPreferredSize(new Dimension(maxsize.width - scrollPane.WIDTH, maxsize.height));
-//		side_panel.set
-
-		viewport_panel.setBackground(Color.WHITE);
-		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
-		viewport_panel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-		scrollPane.setMaximumSize(new Dimension(400, maxsize.height - 300));
-		scrollPane.setMinimumSize(new Dimension(300, maxsize.height - 300));
-		scrollPane.setPreferredSize(new Dimension(350, maxsize.height - 300));
-		panel_1.add(scrollPane);
-
-		scrollPane.setViewportView(viewport_panel);
-		viewport_panel.setLayout(new BorderLayout(0, 0));
-
-		side_panel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.X_AXIS));
 
 		// Sets the side panel constraints
-		side_panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		side_panel.setBackground(Color.GRAY);
-		side_panel.setLayout(null);
-		panel_1.add(side_panel);
+		menu_panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		menu_panel.setMaximumSize(new Dimension(maxsize.width/8, maxsize.height));
+		menu_panel.setMinimumSize(new Dimension(maxsize.width/8, maxsize.height));
+		menu_panel.setPreferredSize(new Dimension(maxsize.width/8, maxsize.height));
+		menu_panel.setBackground(Color.GRAY);
+		panel_1.add(menu_panel);
+		menu_panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
+		int first_panel = 0;
+		
+		// TODO after db connected uncomment if statements and delete if(true)s
+//		if(data.getCashier()){
+		if(true){
+			
+			lbl_transaction.setIcon(new ImageIcon(POSMain.class.getResource("/media/transactions.png")));
+			lbl_transaction.setBounds(2, setY(position), 196, 45); // 237
+			addListenerForMenuBar(lbl_transaction, 1);
+
+			menu_panel.add(lbl_transaction);
+			
+			if (first_panel == 0)
+				;
+			first_panel = 1;
+		}
+		/*if(data.getSupervisor()){
+			
+		}
+		if(data.getManager()){
+			
+		}*/
+		
+		panel_1.add(dynamic_panel);
+		dynamic_panel.setLayout(new BoxLayout(dynamic_panel, BoxLayout.X_AXIS));
+		
+		viewport_panel.setBackground(Color.WHITE);
+		dynamic_panel.add(scrollPane);
+		scrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+				scrollPane.setViewportView(viewport_panel);
+				viewport_panel.setLayout(new BoxLayout(viewport_panel, BoxLayout.X_AXIS));
+
+		// set action listener for the inactivity listener
 		Action logout = new AbstractAction() {
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 3388238663613386686L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -251,21 +174,14 @@ public class POSMain {
 			}
 		};
 
-		InactivityListener listener = new InactivityListener(pos_frame, logout, 10);
+		// set the inactivity listener to check for inactivity not exceeding 5
+		// minutes
+		// TODO modify to check for status of transaction
+		InactivityListener listener = new InactivityListener(pos_frame, logout, 5);
+		// start listener
 		listener.start();
-
-	}
-
-	protected void handleSelection(String selection) {
-
-		switch (selection) {
-		case "Logout":
-			logout_pressed();
-			break;
-		case "Options":
-
-			break;
-		}
+		
+		pos_frame.setUndecorated(true);
 
 	}
 
@@ -278,33 +194,12 @@ public class POSMain {
 
 	}
 
-	// Listener for rollover of logout button -- depresses button
-	protected void logout_select(int i) {
-		if (i == 1) {
-			lbl_logout.setIcon(new ImageIcon(POSMain.class.getResource("/media/logout_pressed.png")));
-		} else {
-			lbl_logout.setIcon(new ImageIcon(POSMain.class.getResource("/media/logout.png")));
-		}
-	}
-
 	// Listener for sidebar scroll over
 	protected void panelControlExit(int i) {
 		if (i != currentPanel) {
 			switch (i) {
 			case 1:
-				lbl_transaction.setIcon(new ImageIcon(POSMain.class.getResource("/media/hub.png")));
-				break;
-			case 2:
-				lbl_payment.setIcon(new ImageIcon(POSMain.class.getResource("/media/restock.png")));
-				break;
-			case 3:
-				lbl_transfer.setIcon(new ImageIcon(POSMain.class.getResource("/media/plans.png")));
-				break;
-			case 6:
-				lbl_inventory.setIcon(new ImageIcon(POSMain.class.getResource("/media/products.png")));
-				break;
-			case 8:
-				lbl_users.setIcon(new ImageIcon(POSMain.class.getResource("/media/users.png")));
+				lbl_transaction.setIcon(new ImageIcon(POSMain.class.getResource("/media/transactions.png")));
 				break;
 			}
 		}
@@ -317,28 +212,13 @@ public class POSMain {
 		if (i != currentPanel) {
 			switch (i) {
 			case 1:
-				lbl_transaction.setIcon(new ImageIcon(POSMain.class.getResource("/media/hub_selected.png")));
-				break;
-			case 2:
-				lbl_payment.setIcon(new ImageIcon(POSMain.class.getResource("/media/restock_selected.png")));
-				break;
-			case 3:
-				lbl_transfer.setIcon(new ImageIcon(POSMain.class.getResource("/media/plans_selected.png")));
-				break;
-			case 6:
-				lbl_inventory.setIcon(new ImageIcon(POSMain.class.getResource("/media/products_selected.png")));
-				break;
-			case 8:
-				lbl_users.setIcon(new ImageIcon(POSMain.class.getResource("/media/users_selected.png")));
+				lbl_transaction.setIcon(new ImageIcon(POSMain.class.getResource("/media/transactions_selected.png")));
 				break;
 			}
 		}
 	}
 
 	// Changes the current active pane,
-	// AKA the pane in the scroll view
-	// TODO, code not yet complete
-
 	protected void setActivePane(int i) {
 		if (i != currentPanel) {
 
@@ -349,66 +229,13 @@ public class POSMain {
 			switch (i) {
 			case 1:
 				lastPanel = currentPanel;
-				lbl_transaction.setIcon(new ImageIcon(POSMain.class.getResource("/media/hub_selected_current.png")));
+				lbl_transaction.setIcon(new ImageIcon(POSMain.class.getResource("/media/transactions_selected_current.png")));
 				currentPanel = 1;
 				viewport_panel.removeAll();
 				viewport_panel.validate();
-				// viewport_panel.add(new Hub(data, extraWindows));
-				viewport_panel.validate();
-				panelControlExit(lastPanel);
-
-				scrollPane.repaint();
-
-				return;
-			case 2:
-				lastPanel = currentPanel;
-
-				lbl_payment.setIcon(new ImageIcon(POSMain.class.getResource("/media/restock_selected_current.png")));
-				currentPanel = 2;
-				viewport_panel.removeAll();
-				viewport_panel.validate();
-				// viewport_panel.add(new Restock());
-				viewport_panel.validate();
-				panelControlExit(lastPanel);
-
-				scrollPane.repaint();
-
-				return;
-			case 3:
-				lastPanel = currentPanel;
-				lbl_transfer.setIcon(new ImageIcon(POSMain.class.getResource("/media/plans_selected_current.png")));
-				currentPanel = 3;
-
-				viewport_panel.removeAll();
-				viewport_panel.validate();
-				// viewport_panel.add(new Plans());
-				viewport_panel.validate();
-				panelControlExit(lastPanel);
-
-				scrollPane.repaint();
-
-				return;
-			case 6:
-				lastPanel = currentPanel;
-				lbl_inventory.setIcon(new ImageIcon(POSMain.class.getResource("/media/products_selected_current.png")));
-				currentPanel = 6;
-
-				viewport_panel.removeAll();
-				viewport_panel.validate();
-				// viewport_panel.add(new Products());
-				viewport_panel.validate();
-				panelControlExit(lastPanel);
-
-				scrollPane.repaint();
-
-				break;
-			case 8:
-				lastPanel = currentPanel;
-				lbl_users.setIcon(new ImageIcon(POSMain.class.getResource("/media/users_selected_current.png")));
-				currentPanel = 8;
-				viewport_panel.removeAll();
-				viewport_panel.validate();
-				// viewport_panel.add(new Users());
+				Transactions transaction = new Transactions();
+				transaction.setTableInfo();
+				viewport_panel.add(transaction);
 				viewport_panel.validate();
 				panelControlExit(lastPanel);
 
@@ -441,7 +268,7 @@ public class POSMain {
 		});
 	}
 
-	private int increaseY(int currentHeight) {
+	private int setY(int currentHeight) {
 		if (currentHeight == 0) {
 			position = 2;
 			return position;

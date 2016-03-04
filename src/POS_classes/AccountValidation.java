@@ -6,14 +6,13 @@ import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
 import java.util.Random;
 
-public class UserAccounts{
+public class AccountValidation{
 	
 	// convert char[] to byte[] for security purposes
 	protected byte[] toBytes(char[] chars) {
@@ -128,26 +127,6 @@ public class UserAccounts{
 		System.out.print("\n");
 
 		return salted;
-	}
-
-	protected byte[] getKey(String username) {
-		PreparedStatement pstmt;
-		ResultSet rs;
-		byte[] key = null;
-		try {
-			DB DB = new DB();
-			pstmt = DB.conn.prepareStatement("SELECT usr_key FROM Users WHERE usr_id=?;");
-			pstmt.setString(1, username);
-			rs = pstmt.executeQuery();
-			rs.next();
-			key = rs.getBytes(1);
-			DB.closeDB();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return key;
 	}
 
 	protected byte[] generateSalt() {
