@@ -191,9 +191,9 @@ public class POSMain {
 	// Listener for logout to be pressed -- closes frame
 	protected void logout_pressed() {
 
-		pos_frame.dispose();
 		LoginWindow login = new LoginWindow();
 		login.frmPOS.setVisible(true);
+		pos_frame.dispose();
 
 	}
 

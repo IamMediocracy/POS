@@ -435,10 +435,9 @@ public class LoginWindow extends AccountValidation {
 	// after closing the login window
 	public void loadPOS() {
 
-		frmPOS.dispose();
-
 		POSMain main = new POSMain(txt_username.getText());
 		main.pos_frame.setVisible(true);
+		frmPOS.dispose();
 
 	}
 }

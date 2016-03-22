@@ -1,17 +1,18 @@
 package POS_forms;
 
-import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.NumberFormat;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import POS_classes.UIPanels;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 
 public class Transactions extends UIPanels {
 
@@ -30,6 +31,9 @@ public class Transactions extends UIPanels {
 	JButton btnCheck = new JButton("Check");
 	JButton btnEft = new JButton("Credit/Debit Card");
 	JButton btnCancel = new JButton("Cancel");
+	
+	JFormattedTextField amountField;
+	NumberFormat paymentFormat;
 
 	public Transactions() {
 		super();
@@ -56,32 +60,13 @@ public class Transactions extends UIPanels {
 
 	public void setManipButtons() {
 		buttons_panel.removeAll();
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{57, 51, 83, 0};
-		gridBagLayout.rowHeights = new int[]{23, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		buttons_panel.setLayout(gridBagLayout);
+		buttons_panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		btnVoid.setBounds(this.buttons_panel.getBounds().width / 2 - 150,
 				this.buttons_panel.getBounds().height / 2 - 200, 100, 100);
-		GridBagConstraints gbc_btnVoid = new GridBagConstraints();
-		gbc_btnVoid.anchor = GridBagConstraints.NORTHWEST;
-		gbc_btnVoid.insets = new Insets(0, 0, 0, 5);
-		gbc_btnVoid.gridx = 0;
-		gbc_btnVoid.gridy = 0;
-		buttons_panel.add(btnVoid, gbc_btnVoid);
-		GridBagConstraints gbc_btnPay = new GridBagConstraints();
-		gbc_btnPay.anchor = GridBagConstraints.NORTHWEST;
-		gbc_btnPay.insets = new Insets(0, 0, 0, 5);
-		gbc_btnPay.gridx = 1;
-		gbc_btnPay.gridy = 0;
-		buttons_panel.add(btnPay, gbc_btnPay);
-		GridBagConstraints gbc_btnOverride = new GridBagConstraints();
-		gbc_btnOverride.anchor = GridBagConstraints.NORTHWEST;
-		gbc_btnOverride.gridx = 2;
-		gbc_btnOverride.gridy = 0;
-		buttons_panel.add(btnOverride, gbc_btnOverride);
+		buttons_panel.add(btnVoid);
+		buttons_panel.add(btnPay);
+		buttons_panel.add(btnOverride);
 		
 		buttons_panel.validate();
 		buttons_panel.repaint();
@@ -94,6 +79,20 @@ public class Transactions extends UIPanels {
 		buttons_panel.add(btnCheck);
 		buttons_panel.add(btnEft);
 		buttons_panel.add(btnCancel);
+
+		paymentFormat = NumberFormat.getNumberInstance();
+		paymentFormat.setMinimumFractionDigits(2);
+		paymentFormat.setMaximumFractionDigits(2);
+		amountField = new JFormattedTextField(paymentFormat);
+		amountField.setColumns(10);
+		amountField.addPropertyChangeListener(new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent arg0) {
+				
+			}
+		});
+		buttons_panel.add(amountField);
 
 		buttons_panel.validate();
 		buttons_panel.repaint();

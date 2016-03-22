@@ -14,6 +14,9 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.FocusTraversalPolicy;
 
+// This class is included in the Swing API and allows developers to set the
+// tab traversal order on an array index
+
 /**
  * Cyclic focus traversal policy based on array of components.
  * <p>
