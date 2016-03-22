@@ -22,6 +22,8 @@ public class Transactions extends UIPanels {
 	/**
 	 * Create the panel.
 	 */
+	
+	private static boolean priceCheck = false;
 
 	JButton btnOverride = new JButton("OVERRIDE");
 	JButton btnVoid = new JButton("VOID");
