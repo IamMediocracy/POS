@@ -1,5 +1,8 @@
 *.class
 
+src/POS_classes/DB.java
+./src/POS_classes/DB.java
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
