@@ -1,6 +1,8 @@
 package POS_forms;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -13,9 +15,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import POS_classes.UIPanels;
-import javax.swing.SwingConstants;
-import java.awt.Font;
-import java.awt.Color;
 
 public class Transactions extends UIPanels {
 
@@ -25,7 +24,7 @@ public class Transactions extends UIPanels {
 	/**
 	 * Create the panel.
 	 */
-	
+
 	private static boolean priceCheck = false;
 
 	JButton btnOverride = new JButton("OVERRIDE");
@@ -36,7 +35,7 @@ public class Transactions extends UIPanels {
 	JButton btnCheck = new JButton("Check");
 	JButton btnEft = new JButton("Credit/Debit Card");
 	JButton btnCancel = new JButton("Cancel");
-	
+
 	JFormattedTextField amountField;
 	NumberFormat paymentFormat;
 	private final JButton btnPriceCheck = new JButton("PRICE CHECK");
@@ -46,24 +45,18 @@ public class Transactions extends UIPanels {
 		super();
 		pnl_table.setBackground(Color.LIGHT_GRAY);
 		buttons_panel.setBackground(Color.BLUE);
-		
+
 		setManipButtons();
-		btnQuantityOnHand.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+
+		btnPay.setFont(new Font("Tahoma", Font.BOLD, 12));
+
+		btnPay.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setPayButtons();
 			}
 		});
-		btnPay.setFont(new Font("Tahoma", Font.BOLD, 12));
-		
-				btnPay.addActionListener(new ActionListener() {
-		
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						setPayButtons();
-					}
-				});
-		btnQuantityOnHand.setFont(new Font("Tahoma", Font.BOLD, 12));
-		
-		buttons_panel.add(btnQuantityOnHand);
 
 		btnCancel.addActionListener(new ActionListener() {
 
@@ -81,7 +74,7 @@ public class Transactions extends UIPanels {
 		btnOverride.setFont(new Font("Tahoma", Font.BOLD, 12));
 		buttons_panel.add(btnOverride);
 		btnVoid.setFont(new Font("Tahoma", Font.BOLD, 12));
-		
+
 		btnVoid.setBounds(this.buttons_panel.getBounds().width / 2 - 150,
 				this.buttons_panel.getBounds().height / 2 - 200, 100, 100);
 		buttons_panel.add(btnVoid);
@@ -89,20 +82,27 @@ public class Transactions extends UIPanels {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnPriceCheck.setBackground(Color.LIGHT_GRAY);
 		btnPriceCheck.setForeground(Color.BLACK);
 		btnPriceCheck.setFont(new Font("Tahoma", Font.BOLD, 12));
-		
+
+		btnQuantityOnHand.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnQuantityOnHand.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+
+		buttons_panel.add(btnQuantityOnHand);
+
 		buttons_panel.add(btnPriceCheck);
 		buttons_panel.add(btnPay);
-		
+
 		buttons_panel.validate();
 		buttons_panel.repaint();
 	}
 
 	public void setPayButtons() {
 		buttons_panel.removeAll();
-		
+
 		buttons_panel.add(btnCash);
 		buttons_panel.add(btnCheck);
 		buttons_panel.add(btnEft);
@@ -114,10 +114,10 @@ public class Transactions extends UIPanels {
 		amountField = new JFormattedTextField(paymentFormat);
 		amountField.setColumns(10);
 		amountField.addPropertyChangeListener(new PropertyChangeListener() {
-			
+
 			@Override
 			public void propertyChange(PropertyChangeEvent arg0) {
-				
+
 			}
 		});
 		buttons_panel.add(amountField);
