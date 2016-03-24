@@ -40,6 +40,7 @@ public class Transactions extends UIPanels {
 	NumberFormat paymentFormat;
 	private final JButton btnPriceCheck = new JButton("PRICE CHECK");
 	private final JButton btnQuantityOnHand = new JButton("QOH\r\n");
+	private final JButton btnRefund = new JButton("REFUND");
 
 	public Transactions() {
 		super();
@@ -94,6 +95,9 @@ public class Transactions extends UIPanels {
 		buttons_panel.add(btnQuantityOnHand);
 
 		buttons_panel.add(btnPriceCheck);
+		btnRefund.setFont(new Font("Tahoma", Font.BOLD, 12));
+		
+		buttons_panel.add(btnRefund);
 		buttons_panel.add(btnPay);
 
 		buttons_panel.validate();
