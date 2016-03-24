@@ -7,7 +7,7 @@ src/POS_classes/DB.java
 .mtj.tmp/
 
 # Package Files #
-*.jar
+# *.jar
 *.war
 *.ear
 
