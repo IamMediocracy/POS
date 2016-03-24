@@ -13,6 +13,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import POS_classes.UIPanels;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import java.awt.Color;
 
 public class Transactions extends UIPanels {
 
@@ -36,19 +39,31 @@ public class Transactions extends UIPanels {
 	
 	JFormattedTextField amountField;
 	NumberFormat paymentFormat;
+	private final JButton btnPriceCheck = new JButton("PRICE CHECK");
+	private final JButton btnQuantityOnHand = new JButton("QOH\r\n");
 
 	public Transactions() {
 		super();
+		pnl_table.setBackground(Color.LIGHT_GRAY);
+		buttons_panel.setBackground(Color.BLUE);
 		
 		setManipButtons();
-
-		btnPay.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setPayButtons();
+		btnQuantityOnHand.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
+		btnPay.setFont(new Font("Tahoma", Font.BOLD, 12));
+		
+				btnPay.addActionListener(new ActionListener() {
+		
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						setPayButtons();
+					}
+				});
+		btnQuantityOnHand.setFont(new Font("Tahoma", Font.BOLD, 12));
+		
+		buttons_panel.add(btnQuantityOnHand);
 
 		btnCancel.addActionListener(new ActionListener() {
 
@@ -63,12 +78,23 @@ public class Transactions extends UIPanels {
 	public void setManipButtons() {
 		buttons_panel.removeAll();
 		buttons_panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		btnOverride.setFont(new Font("Tahoma", Font.BOLD, 12));
+		buttons_panel.add(btnOverride);
+		btnVoid.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
 		btnVoid.setBounds(this.buttons_panel.getBounds().width / 2 - 150,
 				this.buttons_panel.getBounds().height / 2 - 200, 100, 100);
 		buttons_panel.add(btnVoid);
+		btnPriceCheck.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnPriceCheck.setBackground(Color.LIGHT_GRAY);
+		btnPriceCheck.setForeground(Color.BLACK);
+		btnPriceCheck.setFont(new Font("Tahoma", Font.BOLD, 12));
+		
+		buttons_panel.add(btnPriceCheck);
 		buttons_panel.add(btnPay);
-		buttons_panel.add(btnOverride);
 		
 		buttons_panel.validate();
 		buttons_panel.repaint();
