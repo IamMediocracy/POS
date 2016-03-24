@@ -1,15 +1,14 @@
 package POS_classes;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import java.awt.FlowLayout;
 
 public abstract class UIPanels extends JPanel {
 
