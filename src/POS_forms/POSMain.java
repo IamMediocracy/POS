@@ -151,12 +151,21 @@ public class POSMain {
 				;
 			first_panel = 1;
 		}
-		/*if(data.getSupervisor()){
-			
-		}
-		if(data.getManager()){
-			
-		}*/
+//		if(data.getSupervisor()){
+//			lbl_inventory.setIcon(new ImageIcon(POSMain.class.getResource("/media/transactions.png")));
+//			lbl_inventory.setBounds(2, setY(position), 196, 45); // 237
+//			addListenerForMenuBar(lbl_inventory, 1);
+//
+//			menu_panel.add(lbl_inventory);
+//
+//			if(data.getManager()){
+//				
+//			}
+//			
+//			if (first_panel == 0)
+//				;
+//			first_panel = 1;
+//		}
 		
 		panel_1.add(dynamic_panel);
 		dynamic_panel.setLayout(new BoxLayout(dynamic_panel, BoxLayout.X_AXIS));

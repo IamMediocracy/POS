@@ -7,13 +7,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.sql.SQLException;
 import java.text.NumberFormat;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
+import POS_classes.DB;
 import POS_classes.UIPanels;
 
 public class Transactions extends UIPanels {
@@ -21,9 +24,7 @@ public class Transactions extends UIPanels {
 	// Generated SVD
 	private static final long serialVersionUID = -203858668229154039L;
 
-	/**
-	 * Create the panel.
-	 */
+	// List<>
 
 	private static boolean priceCheck = false;
 
@@ -41,15 +42,28 @@ public class Transactions extends UIPanels {
 	private final JButton btnPriceCheck = new JButton("PRICE CHECK");
 	private final JButton btnQuantityOnHand = new JButton("QOH\r\n");
 	private final JButton btnRefund = new JButton("REFUND");
+	private final JTextField txt_identifier = new JTextField();
 
 	public Transactions() {
 		super();
+		txt_identifier.setColumns(10);
 		pnl_table.setBackground(Color.LIGHT_GRAY);
 		buttons_panel.setBackground(Color.BLUE);
 
 		setManipButtons();
 
 		btnPay.setFont(new Font("Tahoma", Font.BOLD, 12));
+
+		txt_identifier.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				itemScanned(txt_identifier.getText());
+				txt_identifier.setText("");
+			}
+		});
+
+		pnl_table_info.add(txt_identifier);
 
 		btnPay.addActionListener(new ActionListener() {
 
@@ -81,6 +95,7 @@ public class Transactions extends UIPanels {
 		buttons_panel.add(btnVoid);
 		btnPriceCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 			}
 		});
 		btnPriceCheck.setForeground(Color.BLACK);
@@ -96,7 +111,7 @@ public class Transactions extends UIPanels {
 
 		buttons_panel.add(btnPriceCheck);
 		btnRefund.setFont(new Font("Tahoma", Font.BOLD, 12));
-		
+
 		buttons_panel.add(btnRefund);
 		buttons_panel.add(btnPay);
 
@@ -132,6 +147,18 @@ public class Transactions extends UIPanels {
 
 	public void disposeChildFrames() {
 		// TODO Auto-generated method stub
+
+	}
+
+	public void itemScanned(String identifier) {
+		try {
+			DB DB = new DB();
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
