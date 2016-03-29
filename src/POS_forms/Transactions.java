@@ -7,11 +7,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.NumberFormat;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -36,6 +39,10 @@ public class Transactions extends UIPanels {
 	JButton btnCheck = new JButton("Check");
 	JButton btnEft = new JButton("Credit/Debit Card");
 	JButton btnCancel = new JButton("Cancel");
+	
+	JLabel lblName = new JLabel();
+	JLabel lblPrice = new JLabel();
+	JLabel lblQuantity = new JLabel();
 
 	JFormattedTextField amountField;
 	NumberFormat paymentFormat;
@@ -95,7 +102,7 @@ public class Transactions extends UIPanels {
 		buttons_panel.add(btnVoid);
 		btnPriceCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				priceCheck = true;
 			}
 		});
 		btnPriceCheck.setForeground(Color.BLACK);
@@ -153,6 +160,21 @@ public class Transactions extends UIPanels {
 	public void itemScanned(String identifier) {
 		try {
 			DB DB = new DB();
+			if (!priceCheck){
+				
+			} else {
+				PreparedStatement pstmnt = DB.conn.prepareStatement
+						("select itm_name, itm_price, itm_quantity from item where itm_id = ?");
+				pstmnt.setString(1, identifier);
+				ResultSet rs = pstmnt.executeQuery();
+				if (rs.next()) {
+					double price = rs.getDouble("itm_price");
+					int quantity = rs.getInt("itm_quantity");
+					lblName.setText(rs.getString("itm_name"));
+					lblPrice.setText(rs.getDouble("itm_price"));
+					lblQuantity.setText(price.toString());
+				}
+			}
 			
 			
 		} catch (SQLException e) {
