@@ -1,6 +1,7 @@
 package POS_forms;
 
 import java.awt.Color;
+import javax.swing.table.DefaultTableModel;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -89,17 +90,24 @@ public class Transactions extends UIPanels {
 		});
 
 	}
-
+	
 	public void setManipButtons() {
 		buttons_panel.removeAll();
 		buttons_panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		btnOverride.setFont(new Font("Tahoma", Font.BOLD, 12));
 		buttons_panel.add(btnOverride);
+		
+		
 		btnVoid.setFont(new Font("Tahoma", Font.BOLD, 12));
 
 		btnVoid.setBounds(this.buttons_panel.getBounds().width / 2 - 150,
 				this.buttons_panel.getBounds().height / 2 - 200, 100, 100);
+		
 		buttons_panel.add(btnVoid);
+		
+	
+		
+		
 		btnPriceCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				priceCheck = true;
@@ -184,7 +192,6 @@ public class Transactions extends UIPanels {
 
 	}
 
-	@Override
 	public void setTableInfo() {
 		// This data is solely for testing purposes only
 		String[] columnNames = { "Item Name", "UPC", "QTY", "Cost" };
@@ -196,14 +203,35 @@ public class Transactions extends UIPanels {
 				{ "Screw", "277492973558287364", new Integer(10), "4.79" } };
 
 		// this.table = null;
-		table = new JTable(data, columnNames);
+		DefaultTableModel model = new DefaultTableModel(data, columnNames);
+		table = new JTable(model);
+
 		pnl_table.removeAll();
+		
 		tablepane = null;
 		tablepane = new JScrollPane(table);
 
 		pnl_table.add(tablepane);
 		pnl_table.validate();
 		pnl_table.repaint();
+		
+		
+		btnVoid.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			
+			int selRow = table.getSelectedRow();
+			
+			if(selRow !=-1)
+			{
+			 model.removeRow(selRow);
+			}
+			}
+		});
+		
+		
 	}
+	
 
 }
