@@ -1,9 +1,10 @@
 package POS_forms;
 
 import java.awt.Color;
-import javax.swing.table.DefaultTableModel;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -21,12 +22,15 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import POS_classes.DB;
+import POS_classes.DBTableModel;
 import POS_classes.UIPanels;
 
 public class Transactions extends UIPanels {
 
 	// Generated SVD
 	private static final long serialVersionUID = -203858668229154039L;
+
+	private DBTableModel model;
 
 	// List<>
 
@@ -38,9 +42,9 @@ public class Transactions extends UIPanels {
 
 	JButton btnCash = new JButton("Cash");
 	JButton btnCheck = new JButton("Check");
-	JButton btnEft = new JButton("Credit/Debit Card");
+	JButton btnEFT = new JButton("Credit/Debit Card");
 	JButton btnCancel = new JButton("Cancel");
-	
+
 	JLabel lblName = new JLabel();
 	JLabel lblPrice = new JLabel();
 	JLabel lblQuantity = new JLabel();
@@ -54,13 +58,19 @@ public class Transactions extends UIPanels {
 
 	public Transactions() {
 		super();
-		txt_identifier.setColumns(10);
 		pnl_table.setBackground(Color.LIGHT_GRAY);
 		buttons_panel.setBackground(Color.BLUE);
 
 		setManipButtons();
 
 		btnPay.setFont(new Font("Tahoma", Font.BOLD, 12));
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[] { 1, 1, 1 };
+		gridBagLayout.rowHeights = new int[] { 1, 0 };
+		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
+		pnl_table_info.setLayout(gridBagLayout);
+		txt_identifier.setColumns(10);
 
 		txt_identifier.addActionListener(new ActionListener() {
 
@@ -71,7 +81,11 @@ public class Transactions extends UIPanels {
 			}
 		});
 
-		pnl_table_info.add(txt_identifier);
+		GridBagConstraints gbc_txt_identifier = new GridBagConstraints();
+		gbc_txt_identifier.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txt_identifier.gridx = 0;
+		gbc_txt_identifier.gridy = 0;
+		pnl_table_info.add(txt_identifier, gbc_txt_identifier);
 
 		btnPay.addActionListener(new ActionListener() {
 
@@ -90,24 +104,31 @@ public class Transactions extends UIPanels {
 		});
 
 	}
-	
+
 	public void setManipButtons() {
+		txt_identifier.requestFocus();
 		buttons_panel.removeAll();
 		buttons_panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		btnOverride.setFont(new Font("Tahoma", Font.BOLD, 12));
 		buttons_panel.add(btnOverride);
-		
-		
+
 		btnVoid.setFont(new Font("Tahoma", Font.BOLD, 12));
 
 		btnVoid.setBounds(this.buttons_panel.getBounds().width / 2 - 150,
 				this.buttons_panel.getBounds().height / 2 - 200, 100, 100);
-		
+
+		btnVoid.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int selRow = table.getSelectedRow();
+				if (selRow > -1) {
+					model.removeRow(selRow);
+				}
+			}
+		});
+
 		buttons_panel.add(btnVoid);
-		
-	
-		
-		
+
 		btnPriceCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				priceCheck = true;
@@ -139,7 +160,7 @@ public class Transactions extends UIPanels {
 
 		buttons_panel.add(btnCash);
 		buttons_panel.add(btnCheck);
-		buttons_panel.add(btnEft);
+		buttons_panel.add(btnEFT);
 		buttons_panel.add(btnCancel);
 
 		paymentFormat = NumberFormat.getNumberInstance();
@@ -158,6 +179,7 @@ public class Transactions extends UIPanels {
 
 		buttons_panel.validate();
 		buttons_panel.repaint();
+		amountField.requestFocus();
 	}
 
 	public void disposeChildFrames() {
@@ -168,23 +190,27 @@ public class Transactions extends UIPanels {
 	public void itemScanned(String identifier) {
 		try {
 			DB DB = new DB();
-			if (!priceCheck){
-				
+			if (!priceCheck) {
+				String[] fields = { "itm_id AS 'UPC'", "itm_name AS 'Item'", "itm_price AS 'Price'" };
+				String[] where = { "itm_id" };
+				String[] criteria = { identifier };
+				String table = "item";
+				Object[] data = addRow(table, fields, where, criteria);
+				if (data!=null) {
+					model.addRow(data);
+				}
 			} else {
-				PreparedStatement pstmnt = DB.conn.prepareStatement
-						("select itm_name, itm_price, itm_quantity from item where itm_id = ?");
+				PreparedStatement pstmnt = DB.conn
+						.prepareStatement("select itm_name, itm_price, itm_quantity from item where itm_id = ?");
 				pstmnt.setString(1, identifier);
 				ResultSet rs = pstmnt.executeQuery();
 				if (rs.next()) {
-					double price = rs.getDouble("itm_price");
-					int quantity = rs.getInt("itm_quantity");
 					lblName.setText(rs.getString("itm_name"));
-					lblPrice.setText(rs.getDouble("itm_price"));
-					lblQuantity.setText(price.toString());
+					lblPrice.setText(rs.getString("itm_price"));
+					lblQuantity.setText(rs.getString("itm_quantity"));
 				}
 			}
-			
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -192,46 +218,24 @@ public class Transactions extends UIPanels {
 
 	}
 
-	public void setTableInfo() {
+	public void setTableInfo() throws ClassNotFoundException {
 		// This data is solely for testing purposes only
-		String[] columnNames = { "Item Name", "UPC", "QTY", "Cost" };
+		String[] columnNames = { "UPC", "Item", "Price" };
 
-		Object[][] data = { { "Hammer", "127846166244", new Integer(5), "15.97" },
-				{ "Utility Knife", "0864365341523464", new Integer(3), "9.99" },
-				{ "Screwdriver", "3476432043856", new Integer(2), "4.96" },
-				{ "Nail", "12874562694501", new Integer(20), "5.27" },
-				{ "Screw", "277492973558287364", new Integer(10), "4.79" } };
+		Object[][] data = new Object[0][0];
 
-		// this.table = null;
-		DefaultTableModel model = new DefaultTableModel(data, columnNames);
+		model = new DBTableModel(data, columnNames);
 		table = new JTable(model);
 
 		pnl_table.removeAll();
-		
+
 		tablepane = null;
 		tablepane = new JScrollPane(table);
 
 		pnl_table.add(tablepane);
 		pnl_table.validate();
 		pnl_table.repaint();
-		
-		
-		btnVoid.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-			
-			int selRow = table.getSelectedRow();
-			
-			if(selRow !=-1)
-			{
-			 model.removeRow(selRow);
-			}
-			}
-		});
-		
-		
+
 	}
-	
 
 }

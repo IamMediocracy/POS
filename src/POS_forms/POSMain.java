@@ -135,7 +135,7 @@ public class POSMain {
 		panel_1.add(menu_panel);
 		menu_panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-		int first_panel = 0;
+		int first_panel = 1;
 		
 		// TODO after db connected uncomment if statements and delete if(true)s
 //		if(data.getCashier()){
@@ -147,9 +147,9 @@ public class POSMain {
 
 			menu_panel.add(lbl_transaction);
 			
-			if (first_panel == 0)
-				;
-			first_panel = 1;
+//			if (first_panel == 0)
+//				;
+//			first_panel = 1;
 		}
 //		if(data.getSupervisor()){
 //			lbl_inventory.setIcon(new ImageIcon(POSMain.class.getResource("/media/transactions.png")));
@@ -185,6 +185,8 @@ public class POSMain {
 				logout_pressed();
 			}
 		};
+		
+		setActivePane(first_panel);
 
 		// set the inactivity listener to check for inactivity not exceeding 5
 		// minutes
@@ -246,7 +248,12 @@ public class POSMain {
 				viewport_panel.removeAll();
 				viewport_panel.validate();
 				Transactions transaction = new Transactions();
-				transaction.setTableInfo();
+				try {
+					transaction.setTableInfo();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				viewport_panel.add(transaction);
 				viewport_panel.validate();
 				panelControlExit(lastPanel);

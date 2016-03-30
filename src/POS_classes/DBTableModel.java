@@ -21,15 +21,20 @@ public class DBTableModel extends DefaultTableModel{
 		return;
 	}
 	
+//	@Override
+//	public Class getColumnClass(int col){
+//			try {
+//				return Class.forName(this.columnClass[col]);
+//			} catch (ClassNotFoundException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			return Object.class;
+//	}
+	
 	@Override
-	public Class getColumnClass(int col){
-			try {
-				return Class.forName(this.columnClass[col]);
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return Object.class;
+	public boolean isCellEditable(int row, int col){
+		return false;
 	}
 	
 }
