@@ -1,5 +1,11 @@
 package POS_forms;
 
-public class Users {
+import java.sql.PreparedStatement;
 
+import POS_classes.DB;
+
+public class Users {
+	public void addCashier() {
+		//PreparedStatement addCashier = DB.conn.prepareStatement("");
+	}
 }
