@@ -2,16 +2,7 @@ package POS_forms;
 
 import POS_classes.UIPanels;
 
-public class Inventory extends UIPanels {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -623960494531850199L;
-
-	public Inventory(){
-		super();
-	}
+public class Transfer extends UIPanels {
 
 	@Override
 	public void setTableInfo() throws ClassNotFoundException {
