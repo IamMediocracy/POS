@@ -1,11 +1,20 @@
 package POS_forms;
 
-import java.sql.PreparedStatement;
+import POS_classes.UIPanels;
 
-import POS_classes.DB;
+public class Users extends UIPanels {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7686999830925783105L;
 
-public class Users {
 	public void addCashier() {
 		//PreparedStatement addCashier = DB.conn.prepareStatement("");
+	}
+
+	@Override
+	public void setTableInfo() throws ClassNotFoundException {
+		// TODO Auto-generated method stub
+		
 	}
 }

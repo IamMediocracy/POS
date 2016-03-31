@@ -38,7 +38,7 @@ public class POSMain {
 	JLabel lbl_transaction = new JLabel();
 	JLabel lbl_payment = new JLabel();
 	JLabel lbl_transfer = new JLabel();
-	JLabel lbl_inventory = new JLabel();
+	JLabel lbl_products = new JLabel();
 	JLabel lbl_users = new JLabel();
 
 	// The main encompassing panel, all other elements
@@ -73,7 +73,7 @@ public class POSMain {
 
 	// Calls the build function for the JFrame
 	public POSMain(String userID) {
-//		data = new SessionData(userID);
+		// data = new SessionData(userID);
 		initialize();
 
 	}
@@ -92,7 +92,6 @@ public class POSMain {
 		pos_frame.getContentPane().setLayout(new BoxLayout(pos_frame.getContentPane(), BoxLayout.Y_AXIS));
 		pos_frame.setBounds(0, 0, maxsize.width, maxsize.width);
 
-		
 		// Sets background color
 		panel.setBackground(Color.LIGHT_GRAY);
 
@@ -102,16 +101,16 @@ public class POSMain {
 
 		// Sets the constraints for the top_pannel
 
-		top_panel.setMinimumSize(new Dimension(maxsize.width, maxsize.height/10));
-		top_panel.setMaximumSize(new Dimension(maxsize.width, maxsize.height/10));
-		top_panel.setPreferredSize(new Dimension(maxsize.width, maxsize.height/10));
+		top_panel.setMinimumSize(new Dimension(maxsize.width, maxsize.height / 10));
+		top_panel.setMaximumSize(new Dimension(maxsize.width, maxsize.height / 10));
+		top_panel.setPreferredSize(new Dimension(maxsize.width, maxsize.height / 10));
 
 		top_panel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		top_panel.setBackground(Color.GREEN);
 		top_panel.setLayout(null);
 		panel.add(top_panel);
 
-//		JButton btn_logout = new JButton(data.getFirstName());
+		// JButton btn_logout = new JButton(data.getFirstName());
 		JButton btn_logout = new JButton("USER_FName");
 		btn_logout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -127,55 +126,60 @@ public class POSMain {
 
 		// Sets the side panel constraints
 		menu_panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		menu_panel.setBounds(0, maxsize.height-maxsize.height/10, maxsize.width/8, maxsize.height-maxsize.height/10);
-		menu_panel.setMaximumSize(new Dimension(maxsize.width/8, maxsize.height));
-		menu_panel.setMinimumSize(new Dimension(maxsize.width/8, maxsize.height));
-		menu_panel.setPreferredSize(new Dimension(maxsize.width/8, maxsize.height));
+		menu_panel.setBounds(0, maxsize.height - maxsize.height / 10, maxsize.width / 8,
+				maxsize.height - maxsize.height / 10);
+		menu_panel.setMaximumSize(new Dimension(maxsize.width / 8, maxsize.height));
+		menu_panel.setMinimumSize(new Dimension(maxsize.width / 8, maxsize.height));
+		menu_panel.setPreferredSize(new Dimension(maxsize.width / 8, maxsize.height));
 		menu_panel.setBackground(Color.GRAY);
 		panel_1.add(menu_panel);
 		menu_panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		int first_panel = 1;
-		
+
 		// TODO after db connected uncomment if statements and delete if(true)s
-//		if(data.getCashier()){
-		if(true){
-			
+		// if(data.getCashier()){
+		if (true) {
+
 			lbl_transaction.setIcon(new ImageIcon(POSMain.class.getResource("/media/transactions.png")));
 			lbl_transaction.setBounds(2, setY(position), 196, 45); // 237
 			addListenerForMenuBar(lbl_transaction, 1);
 
 			menu_panel.add(lbl_transaction);
-			
-//			if (first_panel == 0)
-//				;
-//			first_panel = 1;
+
+			if (true) {
+				first_panel = 2;
+				// if(data.getSupervisor()){
+				lbl_products.setIcon(new ImageIcon(POSMain.class.getResource("/media/products.png")));
+				lbl_products.setBounds(2, setY(position), 196, 45); // 237
+				addListenerForMenuBar(lbl_products, 2);
+
+				menu_panel.add(lbl_products);
+
+				// if(data.getManager()){
+				//
+				// }
+				//
+				// if (first_panel == 0)
+				// ;
+				// first_panel = 1;
+				// }
+			}
+
+			// if (first_panel == 0)
+			// ;
+			// first_panel = 1;
 		}
-//		if(data.getSupervisor()){
-//			lbl_inventory.setIcon(new ImageIcon(POSMain.class.getResource("/media/transactions.png")));
-//			lbl_inventory.setBounds(2, setY(position), 196, 45); // 237
-//			addListenerForMenuBar(lbl_inventory, 1);
-//
-//			menu_panel.add(lbl_inventory);
-//
-//			if(data.getManager()){
-//				
-//			}
-//			
-//			if (first_panel == 0)
-//				;
-//			first_panel = 1;
-//		}
-		
+
 		panel_1.add(dynamic_panel);
 		dynamic_panel.setLayout(new BoxLayout(dynamic_panel, BoxLayout.X_AXIS));
-		
+
 		viewport_panel.setBackground(Color.WHITE);
 		dynamic_panel.add(scrollPane);
 		scrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-				scrollPane.setViewportView(viewport_panel);
-				viewport_panel.setLayout(new BoxLayout(viewport_panel, BoxLayout.X_AXIS));
+
+		scrollPane.setViewportView(viewport_panel);
+		viewport_panel.setLayout(new BoxLayout(viewport_panel, BoxLayout.X_AXIS));
 
 		// set action listener for the inactivity listener
 		Action logout = new AbstractAction() {
@@ -185,7 +189,7 @@ public class POSMain {
 				logout_pressed();
 			}
 		};
-		
+
 		setActivePane(first_panel);
 
 		// set the inactivity listener to check for inactivity not exceeding 5
@@ -194,7 +198,7 @@ public class POSMain {
 		InactivityListener listener = new InactivityListener(pos_frame, logout, 5);
 		// start listener
 		listener.start();
-		
+
 		pos_frame.setUndecorated(true);
 
 	}
@@ -215,6 +219,9 @@ public class POSMain {
 			case 1:
 				lbl_transaction.setIcon(new ImageIcon(POSMain.class.getResource("/media/transactions.png")));
 				break;
+			case 2:
+				lbl_products.setIcon(new ImageIcon(POSMain.class.getResource("/media/products.png")));
+				break;
 			}
 		}
 
@@ -228,6 +235,9 @@ public class POSMain {
 			case 1:
 				lbl_transaction.setIcon(new ImageIcon(POSMain.class.getResource("/media/transactions_selected.png")));
 				break;
+			case 2:
+				lbl_products.setIcon(new ImageIcon(POSMain.class.getResource("/media/products_selected.png")));
+				break;
 			}
 		}
 	}
@@ -235,18 +245,16 @@ public class POSMain {
 	// Changes the current active pane,
 	protected void setActivePane(int i) {
 		if (i != currentPanel) {
-
 			while (!extraWindows.empty()) {
 				extraWindows.pop().dispose();
 			}
-
 			switch (i) {
 			case 1:
 				lastPanel = currentPanel;
-				lbl_transaction.setIcon(new ImageIcon(POSMain.class.getResource("/media/transactions_selected_current.png")));
+				lbl_transaction
+						.setIcon(new ImageIcon(POSMain.class.getResource("/media/transactions_selected_current.png")));
 				currentPanel = 1;
 				viewport_panel.removeAll();
-				viewport_panel.validate();
 				Transactions transaction = new Transactions();
 				try {
 					transaction.setTableInfo();
@@ -257,8 +265,31 @@ public class POSMain {
 				viewport_panel.add(transaction);
 				viewport_panel.validate();
 				panelControlExit(lastPanel);
+				return;
+			case 2:
+				lastPanel = currentPanel;
+				lbl_products.setIcon(new ImageIcon(POSMain.class.getResource("/media/products_selected_current.png")));
+				currentPanel = 2;
+				viewport_panel.removeAll();
+				Inventory products = new Inventory();
+				viewport_panel.add(products);
+				viewport_panel.validate();
+				panelControlExit(lastPanel);
 
-				scrollPane.repaint();
+				viewport_panel.repaint();
+
+				return;
+			case 3:
+				lastPanel = currentPanel;
+				lbl_products.setIcon(new ImageIcon(POSMain.class.getResource("/media/products_selected_current.png")));
+				currentPanel = 2;
+				viewport_panel.removeAll();
+				Transfer transfer = new Transfer();
+				viewport_panel.add(transfer);
+				viewport_panel.validate();
+				panelControlExit(lastPanel);
+
+				viewport_panel.repaint();
 
 				return;
 			}
