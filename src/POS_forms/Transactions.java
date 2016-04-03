@@ -44,6 +44,10 @@ public class Transactions extends UIPanels {
 	JButton btnCheck = new JButton("Check");
 	JButton btnEFT = new JButton("Credit/Debit Card");
 	JButton btnCancel = new JButton("Cancel");
+	
+	JButton btnPaper = new JButton("Paper");
+	JButton btnEmail = new JButton("Email");
+	JButton btnNone = new JButton("No Receipt");
 
 	JLabel lblName = new JLabel();
 	JLabel lblPrice = new JLabel();
@@ -163,6 +167,30 @@ public class Transactions extends UIPanels {
 		buttons_panel.add(btnEFT);
 		buttons_panel.add(btnCancel);
 
+		btnPaper.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		btnEmail.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		btnNone.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		paymentFormat = NumberFormat.getNumberInstance();
 		paymentFormat.setMinimumFractionDigits(2);
 		paymentFormat.setMaximumFractionDigits(2);
@@ -177,9 +205,21 @@ public class Transactions extends UIPanels {
 		});
 		buttons_panel.add(amountField);
 
+		
 		buttons_panel.validate();
 		buttons_panel.repaint();
 		amountField.requestFocus();
+	}
+	
+	public void receipt() {
+		buttons_panel.removeAll();
+		
+		buttons_panel.add(btnPaper);
+		buttons_panel.add(btnEmail);
+		buttons_panel.add(btnNone);
+		
+		buttons_panel.validate();
+		buttons_panel.repaint();
 	}
 
 	public void disposeChildFrames() {
