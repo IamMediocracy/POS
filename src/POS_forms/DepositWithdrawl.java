@@ -38,8 +38,8 @@ public class DepositWithdrawl extends UIPanels {
 	
 	public DepositWithdrawl() {
 		
-		
-		connection = DB.conn();
+		DB BD= new DB();
+		connection = DB.conn;
 		
 		
 		
@@ -48,6 +48,23 @@ public class DepositWithdrawl extends UIPanels {
 		btnWithdrawl.setHorizontalAlignment(SwingConstants.LEFT);
 		btnWithdrawl.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				try {
+					String query= "";
+					PreparedStatement pst = connection.prepareStatement(query);
+					ResultSet rs= pst.executeQuery();
+					table.setModel(model);
+					pst.close();
+					rs.close();
+					
+					
+				}
+				catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				
 			}
 		});
 		buttons_panel.add(btnWithdrawl);
@@ -60,7 +77,21 @@ public class DepositWithdrawl extends UIPanels {
 		btnDeposit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				
+				try {
+					String query= "";
+					PreparedStatement pst = connection.prepareStatement(query);
+					ResultSet rs= pst.executeQuery();
+					table.setModel(model);
+					pst.close();
+					rs.close();
+					
+					
+				}
+				catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			
 				
 			}
@@ -79,7 +110,11 @@ public class DepositWithdrawl extends UIPanels {
 					String query= "select * from running_totals";
 					PreparedStatement pst = connection.prepareStatement(query);
 					ResultSet rs= pst.executeQuery();
-					table.setModel(model);
+					table.setModel(DbUtils.resultSetToTableModel(rs));
+					pst.close();
+					rs.close();
+					
+					
 				}
 				catch (SQLException e) {
 					// TODO Auto-generated catch block
