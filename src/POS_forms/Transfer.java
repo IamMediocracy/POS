@@ -35,6 +35,9 @@ public class Transfer extends UIPanels {
 			DB = new DB();
 			connection = DB.conn;
 
+			buttons_panel.add(btnViewCurrentAmounts);
+			
+			
 			JButton btnWithdrawl = new JButton("Withdrawl");
 			btnWithdrawl.setVerticalAlignment(SwingConstants.TOP);
 			btnWithdrawl.setHorizontalAlignment(SwingConstants.LEFT);
@@ -42,10 +45,10 @@ public class Transfer extends UIPanels {
 				public void actionPerformed(ActionEvent arg0) {
 
 					try {
-						String query = "update running_totals set money_total = money_total + ? WHERE location_name ='drawer1' "
-								+ "UNION update running_totals set money_total = money_total - ? WHERE location_name ='safe' ";
+						String query = "update running_totals set money_total = money_total + '"+withdrawlAMT.getText()+"' WHERE location_name ='drawer1' "
+								+ "UNION update running_totals set money_total = money_total - '"+withdrawlAMT.getText()+"' WHERE location_name ='safe' ";
 						PreparedStatement pst = connection.prepareStatement(query);
-						
+						pst.execute();
 						JOptionPane.showMessageDialog(null, "Funds withdrawn from Safe");
 						
 						
@@ -70,11 +73,11 @@ public class Transfer extends UIPanels {
 				public void actionPerformed(ActionEvent e) {
 
 					try {
-						String query = "update running_totals set money_total = money_total - ? WHERE location_name ='drawer1' "
-								+ "UNION update running_totals set money_total = money_total + ? WHERE location_name ='safe' ";
+						String query = "update running_totals set money_total = money_total - '"+depositAMT.getText()+"' WHERE location_name ='drawer1' "
+								+ "UNION update running_totals set money_total = money_total + '"+depositAMT.getText()+"' WHERE location_name ='safe' ";
 						PreparedStatement pst;
 						pst = connection.prepareStatement(query);
-						
+						pst.execute();
 						JOptionPane.showMessageDialog(null, "Funds deposited to Safe");
 						pst.close();
 						
@@ -107,10 +110,7 @@ public class Transfer extends UIPanels {
 					e1.printStackTrace();
 				}
 				}
-			});
-			
-			buttons_panel.add(btnViewCurrentAmounts);
-		
+			});	
 		
 	}
 
