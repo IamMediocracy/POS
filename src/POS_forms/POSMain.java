@@ -36,9 +36,8 @@ public class POSMain {
 
 	// Menu Bar
 	JLabel lbl_transaction = new JLabel();
-	JLabel lbl_payment = new JLabel();
 	JLabel lbl_transfer = new JLabel();
-	JLabel lbl_products = new JLabel();
+	JLabel lbl_inventory = new JLabel();
 	JLabel lbl_users = new JLabel();
 
 	// The main encompassing panel, all other elements
@@ -73,7 +72,7 @@ public class POSMain {
 
 	// Calls the build function for the JFrame
 	public POSMain(String userID) {
-		// data = new SessionData(userID);
+		data = new UserData(userID);
 		initialize();
 
 	}
@@ -111,7 +110,7 @@ public class POSMain {
 		panel.add(top_panel);
 
 		// JButton btn_logout = new JButton(data.getFirstName());
-		JButton btn_logout = new JButton("USER_FName");
+		JButton btn_logout = new JButton(data.getFirstName());
 		btn_logout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				logout_pressed();
@@ -137,9 +136,7 @@ public class POSMain {
 
 		int first_panel = 1;
 
-		// TODO after db connected uncomment if statements and delete if(true)s
-		// if(data.getCashier()){
-		if (true) {
+		if (data.getCashier()) {
 
 			lbl_transaction.setIcon(new ImageIcon(POSMain.class.getResource("/media/transactions.png")));
 			lbl_transaction.setBounds(2, setY(position), 196, 45); // 237
@@ -147,28 +144,27 @@ public class POSMain {
 
 			menu_panel.add(lbl_transaction);
 
-			if (true) {
-				first_panel = 2;
-				// if(data.getSupervisor()){
-				lbl_products.setIcon(new ImageIcon(POSMain.class.getResource("/media/products.png")));
-				lbl_products.setBounds(2, setY(position), 196, 45); // 237
-				addListenerForMenuBar(lbl_products, 2);
+			if (data.getSupervisor()) {
+				lbl_inventory.setIcon(new ImageIcon(POSMain.class.getResource("/media/inventory.png")));
+				lbl_inventory.setBounds(2, setY(position), 196, 45); // 237
+				addListenerForMenuBar(lbl_inventory, 2);
 
-				menu_panel.add(lbl_products);
+				menu_panel.add(lbl_inventory);
 
-				// if(data.getManager()){
-				//
-				// }
-				//
-				// if (first_panel == 0)
-				// ;
-				// first_panel = 1;
-				// }
+				lbl_transfer.setIcon(new ImageIcon(POSMain.class.getResource("/media/transfer.png")));
+				lbl_transfer.setBounds(2, setY(position), 196, 45); // 237
+				addListenerForMenuBar(lbl_transfer, 3);
+
+				menu_panel.add(lbl_transfer);
+
+				if (data.getManager()) {
+					lbl_users.setIcon(new ImageIcon(POSMain.class.getResource("/media/users.png")));
+					lbl_users.setBounds(2, setY(position), 196, 45); // 237
+					addListenerForMenuBar(lbl_users, 4);
+					menu_panel.add(lbl_users);
+				}
+
 			}
-
-			// if (first_panel == 0)
-			// ;
-			// first_panel = 1;
 		}
 
 		panel_1.add(dynamic_panel);
@@ -220,7 +216,13 @@ public class POSMain {
 				lbl_transaction.setIcon(new ImageIcon(POSMain.class.getResource("/media/transactions.png")));
 				break;
 			case 2:
-				lbl_products.setIcon(new ImageIcon(POSMain.class.getResource("/media/products.png")));
+				lbl_inventory.setIcon(new ImageIcon(POSMain.class.getResource("/media/inventory.png")));
+				break;
+			case 3:
+				lbl_transfer.setIcon(new ImageIcon(POSMain.class.getResource("/media/transfer.png")));
+				break;
+			case 4:
+				lbl_users.setIcon(new ImageIcon(POSMain.class.getResource("/media/users.png")));
 				break;
 			}
 		}
@@ -236,7 +238,13 @@ public class POSMain {
 				lbl_transaction.setIcon(new ImageIcon(POSMain.class.getResource("/media/transactions_selected.png")));
 				break;
 			case 2:
-				lbl_products.setIcon(new ImageIcon(POSMain.class.getResource("/media/products_selected.png")));
+				lbl_inventory.setIcon(new ImageIcon(POSMain.class.getResource("/media/inventory_selected.png")));
+				break;
+			case 3:
+				lbl_transfer.setIcon(new ImageIcon(POSMain.class.getResource("/media/transfer_selected.png")));
+				break;
+			case 4:
+				lbl_users.setIcon(new ImageIcon(POSMain.class.getResource("/media/users_selected.png")));
 				break;
 			}
 		}
@@ -255,7 +263,7 @@ public class POSMain {
 						.setIcon(new ImageIcon(POSMain.class.getResource("/media/transactions_selected_current.png")));
 				currentPanel = 1;
 				viewport_panel.removeAll();
-				Transactions transaction = new Transactions();
+				Transactions transaction = new Transactions(data.getID());
 				try {
 					transaction.setTableInfo();
 				} catch (ClassNotFoundException e) {
@@ -268,11 +276,12 @@ public class POSMain {
 				return;
 			case 2:
 				lastPanel = currentPanel;
-				lbl_products.setIcon(new ImageIcon(POSMain.class.getResource("/media/products_selected_current.png")));
+				lbl_inventory
+						.setIcon(new ImageIcon(POSMain.class.getResource("/media/inventory_selected_current.png")));
 				currentPanel = 2;
 				viewport_panel.removeAll();
-				Inventory products = new Inventory();
-				viewport_panel.add(products);
+				Inventory inventory = new Inventory();
+				viewport_panel.add(inventory);
 				viewport_panel.validate();
 				panelControlExit(lastPanel);
 
@@ -281,11 +290,24 @@ public class POSMain {
 				return;
 			case 3:
 				lastPanel = currentPanel;
-				lbl_products.setIcon(new ImageIcon(POSMain.class.getResource("/media/products_selected_current.png")));
-				currentPanel = 2;
+				lbl_transfer.setIcon(new ImageIcon(POSMain.class.getResource("/media/transfer_selected_current.png")));
+				currentPanel = 3;
 				viewport_panel.removeAll();
 				Transfer transfer = new Transfer();
 				viewport_panel.add(transfer);
+				viewport_panel.validate();
+				panelControlExit(lastPanel);
+
+				viewport_panel.repaint();
+
+				return;
+			case 4:
+				lastPanel = currentPanel;
+				lbl_users.setIcon(new ImageIcon(POSMain.class.getResource("/media/users_selected_current.png")));
+				currentPanel = 4;
+				viewport_panel.removeAll();
+				Users users = new Users();
+				viewport_panel.add(users);
 				viewport_panel.validate();
 				panelControlExit(lastPanel);
 

@@ -23,7 +23,7 @@ public class UserData {
 			DB DB = new DB();
 			Statement stmt = DB.conn.createStatement();
 
-			ResultSet results = stmt.executeQuery("SELECT usr_fname FROM Users WHERE usr_id = '" + id + "';");
+			ResultSet results = stmt.executeQuery("SELECT usr_fname FROM user WHERE usr_id = '" + id + "';");
 
 			if (results.next()) {
 				first_name = results.getString(1);
@@ -53,6 +53,10 @@ public class UserData {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public String getID(){
+		return id;
 	}
 
 	public String getFirstName() {

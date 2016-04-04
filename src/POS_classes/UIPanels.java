@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.BoxLayout;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -17,12 +18,23 @@ public abstract class UIPanels extends JPanel {
 
 	private static final long serialVersionUID = -4240167914103235089L;
 
+	protected DBTableModel model;
+	
 	protected JTable table;
 	protected JPanel pnl_super = new JPanel();
 	protected JPanel pnl_table_info = new JPanel();
 	protected JPanel buttons_panel = new JPanel();
 	protected JPanel pnl_table = new JPanel();
 	protected JScrollPane tablepane = new JScrollPane();
+	protected Object[][] data;
+	protected String[] columnNames;
+	protected String[] columnType;
+	
+	public JFrame child;
+	
+	public void disposeChildFrames() {
+		child.dispose();
+	}
 
 	@SuppressWarnings("static-access")
 	public UIPanels() {
@@ -56,11 +68,24 @@ public abstract class UIPanels extends JPanel {
 		buttons_panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 	}
 
-	public abstract void setTableInfo() throws ClassNotFoundException;
+	public void setTableInfo() throws ClassNotFoundException {
 
-	public Object[] addRow(String table, String[] fields, String[] where, String[] criteria) throws SQLException {
+		model = new DBTableModel(data, columnNames);
+		table = new JTable(model);
 
-		table = "item";
+		pnl_table.removeAll();
+
+		tablepane = null;
+		tablepane = new JScrollPane(table);
+
+		pnl_table.add(tablepane);
+		pnl_table.validate();
+		pnl_table.repaint();
+
+	}
+
+	public void selectRows(String[] tables, String[] joinOn, String[] fields, String[] where, Object[] criteria)
+			throws SQLException {
 
 		DB DB = new DB();
 
@@ -71,7 +96,16 @@ public abstract class UIPanels extends JPanel {
 			}
 			query += fields[x];
 		}
-		query += " FROM " + table;
+		query += " FROM " + tables[0];
+		if (tables.length > 1 && tables.length == joinOn.length) {
+			for (int i = 1; i < tables.length; i++) {
+				query += (" JOIN " + tables[i]);
+			}
+			for (int i = 0; i < tables.length; i += 2) {
+				query += (tables[i] + "." + joinOn[i] + "==" + tables[i + 1] + "." + joinOn[i + 1]);
+			}
+		}
+
 		if ((where != null && criteria != null) && where.length == criteria.length) {
 			query += " WHERE ";
 			for (int y = 0; y < where.length; y++) {
@@ -83,33 +117,33 @@ public abstract class UIPanels extends JPanel {
 		}
 		query += ";";
 
-		PreparedStatement pstmt = DB.conn.prepareStatement("SELECT COUNT(*) FROM " + table + ";");
-		ResultSet rs = pstmt.executeQuery();
-		rs.next();
-		Object data[][] = new Object[rs.getInt(1)][fields.length];
-		pstmt = null;
+		PreparedStatement pstmt = null;
 		pstmt = DB.conn.prepareStatement(query);
 		if ((where != null && criteria != null) && where.length == criteria.length) {
 			for (int i = 0; i < criteria.length; i++) {
 				pstmt.setObject(i + 1, criteria[i]);
 			}
 		}
-		rs = pstmt.executeQuery();
-		String columnNames[] = new String[fields.length];
-		String columnType[] = new String[fields.length];
-		for (int k = 0; k < fields.length/* columns */; k++) {
+		ResultSet rs = pstmt.executeQuery();
+		this.columnNames = new String[fields.length];
+		this.columnType = new String[fields.length];
+		if (rs != null) {
+			rs.last();
+			this.data = new Object[rs.getRow()][fields.length];
+			rs.beforeFirst();
+		}
+		for (int k = 0; k < fields.length; k++) {
 			columnNames[k] = rs.getMetaData().getColumnLabel(k + 1);
 			columnType[k] = rs.getMetaData().getColumnClassName(k + 1);
 		}
-		if (rs.next()) {
+		for (int i = 0; rs.next(); i++) {
 			for (int j = 0; j < fields.length; j++) {
-				data[0][j] = rs.getObject(j + 1);
+				this.data[i][j] = rs.getObject(j + 1);
 			}
-			return data[0];
 		}
 		DB.closeDB();
-		
-		return null;
+
+		return;
 
 	}
 }

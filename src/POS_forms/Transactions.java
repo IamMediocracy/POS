@@ -9,30 +9,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.NumberFormat;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import POS_classes.DB;
-import POS_classes.DBTableModel;
 import POS_classes.UIPanels;
 
 public class Transactions extends UIPanels {
 
 	// Generated SVD
 	private static final long serialVersionUID = -203858668229154039L;
-
-	private DBTableModel model;
-
-	// List<>
 
 	private static boolean priceCheck = false;
 
@@ -44,10 +39,14 @@ public class Transactions extends UIPanels {
 	JButton btnCheck = new JButton("Check");
 	JButton btnEFT = new JButton("Credit/Debit Card");
 	JButton btnCancel = new JButton("Cancel");
-	
+
 	JButton btnPaper = new JButton("Paper");
 	JButton btnEmail = new JButton("Email");
 	JButton btnNone = new JButton("No Receipt");
+	
+	JButton btnSelTrans = new JButton("Resume Transaction");
+	JButton btnCancelTrans = new JButton("Cancel Transaction");
+	JButton btnNewTrans = new JButton("Start New Transaction");
 
 	JLabel lblName = new JLabel();
 	JLabel lblPrice = new JLabel();
@@ -60,14 +59,19 @@ public class Transactions extends UIPanels {
 	private final JButton btnRefund = new JButton("REFUND");
 	private final JTextField txt_identifier = new JTextField();
 
-	public Transactions() {
+	private String userID;
+
+	private int trnsID = 0;
+
+	public Transactions(String userID) {
 		super();
+		this.userID = userID;
 		pnl_table.setBackground(Color.LIGHT_GRAY);
 		buttons_panel.setBackground(Color.BLUE);
 
-		setManipButtons();
+		selectTransButtons();
+//		setManipButtons();
 
-		btnPay.setFont(new Font("Tahoma", Font.BOLD, 12));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 1, 1, 1 };
 		gridBagLayout.rowHeights = new int[] { 1, 0 };
@@ -91,21 +95,12 @@ public class Transactions extends UIPanels {
 		gbc_txt_identifier.gridy = 0;
 		pnl_table_info.add(txt_identifier, gbc_txt_identifier);
 
-		btnPay.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setPayButtons();
-			}
-		});
-
-		btnCancel.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setManipButtons();
-			}
-		});
+		try {
+			lookupTransaction(trnsID, false, false);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 	}
 
@@ -127,7 +122,30 @@ public class Transactions extends UIPanels {
 				int selRow = table.getSelectedRow();
 				if (selRow > -1) {
 					model.removeRow(selRow);
+					if (selRow < table.getRowCount()) {
+						table.requestFocus();
+						table.changeSelection(selRow, 0, false, false);
+						table.changeSelection(selRow, 3, true, true);
+					}
 				}
+			}
+		});
+		
+		btnPay.setFont(new Font("Tahoma", Font.BOLD, 12));
+		
+		btnPay.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setPayButtons();
+			}
+		});
+
+		btnCancel.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setManipButtons();
 			}
 		});
 
@@ -135,7 +153,10 @@ public class Transactions extends UIPanels {
 
 		btnPriceCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				priceCheck = true;
+				if (priceCheck)
+					priceCheck = false;
+				else
+					priceCheck = true;
 			}
 		});
 		btnPriceCheck.setForeground(Color.BLACK);
@@ -167,30 +188,10 @@ public class Transactions extends UIPanels {
 		buttons_panel.add(btnEFT);
 		buttons_panel.add(btnCancel);
 
-		btnPaper.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
-		btnEmail.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
-		btnNone.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
+		addReceiptListener(btnCash);
+		addReceiptListener(btnCheck);
+		addReceiptListener(btnEFT);
+
 		paymentFormat = NumberFormat.getNumberInstance();
 		paymentFormat.setMinimumFractionDigits(2);
 		paymentFormat.setMaximumFractionDigits(2);
@@ -205,26 +206,29 @@ public class Transactions extends UIPanels {
 		});
 		buttons_panel.add(amountField);
 
-		
 		buttons_panel.validate();
 		buttons_panel.repaint();
 		amountField.requestFocus();
 	}
-	
+
+	public void addReceiptListener(JButton button) {
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+	}
+
 	public void receipt() {
 		buttons_panel.removeAll();
-		
+
 		buttons_panel.add(btnPaper);
 		buttons_panel.add(btnEmail);
 		buttons_panel.add(btnNone);
-		
+
 		buttons_panel.validate();
 		buttons_panel.repaint();
-	}
-
-	public void disposeChildFrames() {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void itemScanned(String identifier) {
@@ -234,10 +238,17 @@ public class Transactions extends UIPanels {
 				String[] fields = { "itm_id AS 'UPC'", "itm_name AS 'Item'", "itm_price AS 'Price'" };
 				String[] where = { "itm_id" };
 				String[] criteria = { identifier };
-				String table = "item";
-				Object[] data = addRow(table, fields, where, criteria);
-				if (data!=null) {
-					model.addRow(data);
+				String[] table = { "item" };
+				selectRows(table, new String[] { null }, fields, where, criteria);
+				if (data != null) {
+					try {
+						insertRow();
+					} catch (SQLException e) {
+						DB.conn.rollback();
+					}
+					model.addRow(this.data);
+					tablepane.validate();
+					tablepane.repaint();
 				}
 			} else {
 				PreparedStatement pstmnt = DB.conn
@@ -252,30 +263,85 @@ public class Transactions extends UIPanels {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
 
-	public void setTableInfo() throws ClassNotFoundException {
-		// This data is solely for testing purposes only
-		String[] columnNames = { "UPC", "Item", "Price" };
+	public void lookupTransaction(int trnsID, boolean hold, boolean finalized) throws SQLException {
 
-		Object[][] data = new Object[0][0];
+		String[] fields = { "trns_id AS 'Transaction#'", "trns_total AS 'Total'", "usr_id AS 'User'" };
+		String[] where = null;
+		Object[] criteria = null;
+		if (trnsID > 0) {
+			where = new String[] { "trns_id", "trns_on_hold", "trns_finalized" };
+			criteria = new Object[] { trnsID, hold, finalized };
+		} else {
+			where = new String[] { "trns_on_hold", "trns_finalized" };
+			criteria = new Object[] { hold, finalized };
+		}
+		String[] table = { "transaction" };
+		selectRows(table, new String[] { null }, fields, where, criteria);
+		if (data.length > 0) {
+			if (data.length > 1) {
+				try {
+					setTableInfo();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}else{
+				setTransaction();
+			}
+		} else {
+			startNewTransaction();
+			lookupTransaction(trnsID, hold, finalized);
+		}
 
-		model = new DBTableModel(data, columnNames);
-		table = new JTable(model);
+	}
 
-		pnl_table.removeAll();
+	public void selectTransButtons(){
+		btnSelTrans.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnSelTrans.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int selRow = table.getSelectedRow();
+				
+			}
+		});
+		btnCancelTrans.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewTrans.setFont(new Font("Tahoma", Font.BOLD, 12));
+	}
+	
+	public void setTransaction() {
+		
+	}
 
-		tablepane = null;
-		tablepane = new JScrollPane(table);
+	public void startNewTransaction() throws SQLException {
 
-		pnl_table.add(tablepane);
-		pnl_table.validate();
-		pnl_table.repaint();
+		String sql = "INSERT INTO transaction (trns_subtotal,trns_tax,trns_total,trns_on_hold,trns_finalized,usr_id)"
+				+ "VALUES (0,0,0,false,false,'" + userID + "')";
+		DB DB = new DB();
+		Statement stmt = DB.conn.createStatement();
+		stmt.executeQuery(sql);
 
+		DB.conn.commit();
+
+	}
+
+	public void insertRow() throws SQLException {
+		DB DB = new DB();
+
+		String insert = "INSERT INTO receipt_line (trns_id,itm_id,rct_line_price) VALUES ( ?,?,?,?);";
+
+		PreparedStatement pstmt = DB.conn.prepareStatement(insert);
+		
+		pstmt.setInt(1, trnsID);
+		pstmt.setString(2, (String) data[0][0]);
+		pstmt.setBigDecimal(3, (BigDecimal) data[0][3]);
+		
+		ResultSet rs = pstmt.executeQuery();
+		return;
 	}
 
 }
