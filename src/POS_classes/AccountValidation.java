@@ -15,7 +15,7 @@ import java.util.Random;
 public class AccountValidation{
 	
 	// convert char[] to byte[] for security purposes
-	protected byte[] toBytes(char[] chars) {
+	protected static byte[] toBytes(char[] chars) {
 		CharBuffer charBuffer = CharBuffer.wrap(chars);
 		ByteBuffer byteBuffer = Charset.forName("UTF-8").encode(charBuffer);
 		byte[] bytes = Arrays.copyOfRange(byteBuffer.array(), byteBuffer.position(), byteBuffer.limit());
@@ -24,7 +24,7 @@ public class AccountValidation{
 		return bytes;
 	}
 
-	protected byte[] toEncrypt(byte[] password){
+	protected static byte[] toEncrypt(byte[] password){
 		
 		byte[] digested = null;
 		
@@ -39,9 +39,9 @@ public class AccountValidation{
 	        return digested;
 	}
 	
-	protected boolean compareLogin(String username, byte[] usrEnteredPassword) {
+	protected static boolean compareLogin(String username, byte[] usrEnteredPassword) {
 		Statement stmt;
-		String sql = "SELECT usr_active FROM Users WHERE usr_id = '" + username + "';";
+		String sql = "SELECT usr_active FROM user WHERE usr_id = '" + username + "';";
 		
 		try {
 			DB DB = new DB();
@@ -53,7 +53,7 @@ public class AccountValidation{
 				stmt.close();
 				return false;
 			}
-			sql = "SELECT usr_password FROM Users WHERE usr_id = '" + username + "';";
+			sql = "SELECT usr_password FROM user WHERE usr_id = '" + username + "';";
 			rs = stmt.executeQuery(sql);
 			rs.next();
 			byte[] pass = rs.getBytes("usr_password");
@@ -85,9 +85,9 @@ public class AccountValidation{
 		}
 	}
 
-	protected byte[] toSalt(String username, byte[] password) {
+	protected static byte[] toSalt(String username, byte[] password) {
 		Statement stmt;
-		String sql = "SELECT usr_salt FROM Users WHERE usr_id = '" + username + "';";
+		String sql = "SELECT usr_salt FROM user WHERE usr_id = '" + username + "';";
 
 		System.out.println("In toSalt");
 
@@ -129,7 +129,7 @@ public class AccountValidation{
 		return salted;
 	}
 
-	protected byte[] generateSalt() {
+	protected static byte[] generateSalt() {
 		final Random r = new SecureRandom();
 		byte[] salt = new byte[32];
 		r.nextBytes(salt);

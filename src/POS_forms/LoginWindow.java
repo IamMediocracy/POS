@@ -1,11 +1,19 @@
 package POS_forms;
 
+import java.awt.AWTException;
+import java.awt.AWTKeyStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.KeyboardFocusManager;
+import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import java.util.Set;
-import java.awt.*;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,8 +23,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
-import POS_classes.FocusTraversalOnArray;
 import POS_classes.AccountValidation;
+import POS_classes.FocusTraversalOnArray;
 
 public class LoginWindow extends AccountValidation {
 	// The frame of the application
@@ -33,7 +41,7 @@ public class LoginWindow extends AccountValidation {
 	private JButton btn_backspace;
 	// slash key changes focus to next element
 	private JButton btn_slash;
-	
+
 	// number pad
 	private JButton btn_0;
 	private JButton btn_1;
@@ -45,7 +53,7 @@ public class LoginWindow extends AccountValidation {
 	private JButton btn_7;
 	private JButton btn_8;
 	private JButton btn_9;
-	
+
 	Dimension maxsize = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize();
 
 	// The programs main, program starts with a
@@ -405,8 +413,8 @@ public class LoginWindow extends AccountValidation {
 		btn_login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				// TODO uncomment after DB is connected
-//				if (checkLogin()) {
-				if(true){
+//				 if (checkLogin()) {
+				if (true) {
 					loadPOS();
 				}
 			}
@@ -415,7 +423,9 @@ public class LoginWindow extends AccountValidation {
 	}
 
 	public boolean checkLogin() {
-
+		
+//		TestData.insertTestData();
+		
 		String username = txt_username.getText();
 
 		byte[] password = toBytes(txt_password.getPassword());

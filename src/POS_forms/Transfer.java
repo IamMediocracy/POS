@@ -23,10 +23,11 @@ public class Transfer extends UIPanels {
 	Connection connection = null;
 
 	public Transfer() {
+		super();
 		tablepane.setBounds(111, 5, 2, 2);
 		pnl_table.setLayout(null);
-		
-		table= new JTable();
+
+		table = new JTable();
 		table.setBounds(10, 5, 205, 134);
 		pnl_table.add(table);
 
@@ -36,8 +37,7 @@ public class Transfer extends UIPanels {
 			connection = DB.conn;
 
 			buttons_panel.add(btnViewCurrentAmounts);
-			
-			
+
 			JButton btnWithdrawl = new JButton("Withdrawl");
 			btnWithdrawl.setVerticalAlignment(SwingConstants.TOP);
 			btnWithdrawl.setHorizontalAlignment(SwingConstants.LEFT);
@@ -45,15 +45,15 @@ public class Transfer extends UIPanels {
 				public void actionPerformed(ActionEvent arg0) {
 
 					try {
-						String query = "update running_totals set money_total = money_total + '"+withdrawlAMT.getText()+"' WHERE location_name ='drawer1' "
-								+ "UNION update running_totals set money_total = money_total - '"+withdrawlAMT.getText()+"' WHERE location_name ='safe' ";
+						String query = "update running_totals set money_total = money_total + '"
+								+ withdrawlAMT.getText() + "' WHERE location_name ='drawer1' "
+								+ "UNION update running_totals set money_total = money_total - '"
+								+ withdrawlAMT.getText() + "' WHERE location_name ='safe' ";
 						PreparedStatement pst = connection.prepareStatement(query);
 						pst.execute();
 						JOptionPane.showMessageDialog(null, "Funds withdrawn from Safe");
-						
-						
+
 						pst.close();
-						
 
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
@@ -65,22 +65,24 @@ public class Transfer extends UIPanels {
 			buttons_panel.add(btnWithdrawl);
 
 			withdrawlAMT = new JTextField();
-			buttons_panel.add(withdrawlAMT);
 			withdrawlAMT.setColumns(10);
+			buttons_panel.add(withdrawlAMT);
 
 			JButton btnDeposit = new JButton("Deposit");
 			btnDeposit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
 					try {
-						String query = "update running_totals set money_total = money_total - '"+depositAMT.getText()+"' WHERE location_name ='drawer1' "
-								+ "UNION update running_totals set money_total = money_total + '"+depositAMT.getText()+"' WHERE location_name ='safe' ";
+						String query = "update running_totals set money_total = money_total - '" + depositAMT.getText()
+								+ "' WHERE location_name ='drawer1' "
+								+ "UNION update running_totals set money_total = money_total + '" + depositAMT.getText()
+								+ "' WHERE location_name ='safe' ";
 						PreparedStatement pst;
 						pst = connection.prepareStatement(query);
 						pst.execute();
 						JOptionPane.showMessageDialog(null, "Funds deposited to Safe");
 						pst.close();
-						
+
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -97,21 +99,25 @@ public class Transfer extends UIPanels {
 			btnViewCurrentAmounts = new JButton("View Current Amounts");
 			btnViewCurrentAmounts.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
-				try{	
-					String query = "select * from running_totals";
-					PreparedStatement pst = connection.prepareStatement(query);
-					ResultSet rs = pst.executeQuery();
-					table.setModel(DbUtils.resultSetToTableModel(rs));
-					pst.close();
-					rs.close();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+
+					try {
+						String query = "select * from running_totals";
+						PreparedStatement pst = connection.prepareStatement(query);
+						ResultSet rs = pst.executeQuery();
+						table.setModel(DbUtils.resultSetToTableModel(rs));
+						pst.close();
+						rs.close();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
-				}
-			});	
-		
+			});
+
+		} catch(SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 	}
 
 	private static final long serialVersionUID = 6047803356240229042L;
@@ -121,7 +127,6 @@ public class Transfer extends UIPanels {
 	private JTextField depositAMT;
 	private JButton btnViewCurrentAmounts;
 	private JTable table;
-	
 
 	@Override
 	public void setTableInfo() throws ClassNotFoundException {

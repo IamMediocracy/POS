@@ -291,7 +291,7 @@ public class Transactions extends UIPanels {
 					e.printStackTrace();
 				}
 			}else{
-				setTransaction();
+//				setTransaction();
 			}
 		} else {
 			startNewTransaction();
@@ -301,19 +301,56 @@ public class Transactions extends UIPanels {
 	}
 
 	public void selectTransButtons(){
+		buttons_panel.removeAll();
+		
 		btnSelTrans.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnSelTrans.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int selRow = table.getSelectedRow();
-				
+				setTransaction();
 			}
 		});
 		btnCancelTrans.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnCancelTrans.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO DELETE FROM transaction WHERE trns_id = Transaction#;
+			}
+		});
 		btnNewTrans.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewTrans.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					startNewTransaction();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		buttons_panel.add(btnSelTrans);
+		buttons_panel.add(btnCancelTrans);
+		buttons_panel.add(btnNewTrans);
+		
+		buttons_panel.validate();
+		buttons_panel.repaint();
 	}
 	
 	public void setTransaction() {
+		trnsID = (int) model.getValueAt(table.getSelectedRow(), 0);
+		try {
+//			selectRows(new String[]{"item","receipt_line"/*,"transaction"*/}, new String[]{"itm_id"}, new String[]{"rct_line AS 'Line'","itm_id AS 'UPC'",/*"itm_name AS 'Name'",*/"itm_price AS 'Price'"}, new String[]{"trns_id"}, new Object[]{trnsID});
+//			String sql = "Select item_id, "
+			setTableInfo();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -326,19 +363,28 @@ public class Transactions extends UIPanels {
 		stmt.executeQuery(sql);
 
 		DB.conn.commit();
+		
+		columnNames = new String[]{"UPC","Item","Price"};
+		data = new Object[0][0];
+		try {
+			setTableInfo();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
 	public void insertRow() throws SQLException {
 		DB DB = new DB();
 
-		String insert = "INSERT INTO receipt_line (trns_id,itm_id,rct_line_price) VALUES ( ?,?,?,?);";
+		String insert = "INSERT INTO receipt_line (trns_id,itm_id,rct_line_price) VALUES ( ?,?,?);";
 
 		PreparedStatement pstmt = DB.conn.prepareStatement(insert);
 		
 		pstmt.setInt(1, trnsID);
-		pstmt.setString(2, (String) data[0][0]);
-		pstmt.setBigDecimal(3, (BigDecimal) data[0][3]);
+		pstmt.setString(2, data[0][0].toString());
+//		pstmt.setBigDecimal(3, (BigDecimal) data[0][3]);
 		
 		ResultSet rs = pstmt.executeQuery();
 		return;

@@ -80,7 +80,6 @@ public class POSMain {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	@SuppressWarnings("static-access")
 	private void initialize() {
 
 		pos_frame.setLocationRelativeTo(null);

@@ -102,7 +102,7 @@ public abstract class UIPanels extends JPanel {
 				query += (" JOIN " + tables[i]);
 			}
 			for (int i = 0; i < tables.length; i += 2) {
-				query += (tables[i] + "." + joinOn[i] + "==" + tables[i + 1] + "." + joinOn[i + 1]);
+				query += (" ON " + tables[i] + "." + joinOn[i] + "==" + tables[i + 1] + "." + joinOn[i]);
 			}
 		}
 
