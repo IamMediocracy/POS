@@ -25,6 +25,7 @@ import javax.swing.KeyStroke;
 
 import POS_classes.AccountValidation;
 import POS_classes.FocusTraversalOnArray;
+import POS_classes.TestData;
 
 public class LoginWindow extends AccountValidation {
 	// The frame of the application
@@ -413,19 +414,23 @@ public class LoginWindow extends AccountValidation {
 		btn_login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				// TODO uncomment after DB is connected
-//				 if (checkLogin()) {
-				if (true) {
+				if (checkLogin()) {
+					// if (true) {
 					loadPOS();
+				}else{
+					txt_username.setText("");
+					txt_password.setText("");
 				}
 			}
 		});
 
 	}
+	// comment on fork
 
 	public boolean checkLogin() {
-		
+
 //		TestData.insertTestData();
-		
+
 		String username = txt_username.getText();
 
 		byte[] password = toBytes(txt_password.getPassword());
