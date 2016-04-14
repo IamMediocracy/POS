@@ -368,6 +368,7 @@ public class Transactions extends UIPanels {
 		data = new Object[0][0];
 		try {
 			setTableInfo();
+			setManipButtons();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
