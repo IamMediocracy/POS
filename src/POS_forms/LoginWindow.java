@@ -413,11 +413,9 @@ public class LoginWindow extends AccountValidation {
 		// Handles the Login Button click
 		btn_login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				// TODO uncomment after DB is connected
 				if (checkLogin()) {
-					// if (true) {
 					loadPOS();
-				}else{
+				} else {
 					txt_username.setText("");
 					txt_password.setText("");
 				}
@@ -425,7 +423,6 @@ public class LoginWindow extends AccountValidation {
 		});
 
 	}
-	// comment on fork
 
 	public boolean checkLogin() {
 

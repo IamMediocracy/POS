@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 import javax.swing.BoxLayout;
@@ -19,7 +20,7 @@ public abstract class UIPanels extends JPanel {
 	private static final long serialVersionUID = -4240167914103235089L;
 
 	protected DBTableModel model;
-	
+
 	protected JTable table;
 	protected JPanel pnl_super = new JPanel();
 	protected JPanel pnl_table_info = new JPanel();
@@ -29,9 +30,9 @@ public abstract class UIPanels extends JPanel {
 	protected Object[][] data;
 	protected String[] columnNames;
 	protected String[] columnType;
-	
+
 	public JFrame child;
-	
+
 	public void disposeChildFrames() {
 		child.dispose();
 	}
@@ -84,66 +85,30 @@ public abstract class UIPanels extends JPanel {
 
 	}
 
-	public void selectRows(String[] tables, String[] joinOn, String[] fields, String[] where, Object[] criteria)
-			throws SQLException {
-
-		DB DB = new DB();
-
-		String query = "SELECT ";
-		for (int x = 0; x < fields.length; x++) {
-			if (x != 0) {
-				query += ", ";
-			}
-			query += fields[x];
-		}
-		query += " FROM " + tables[0];
-		if (tables.length > 1 && tables.length == joinOn.length) {
-			for (int i = 1; i < tables.length; i++) {
-				query += (" JOIN " + tables[i]);
-			}
-			for (int i = 0; i < tables.length; i += 2) {
-				query += (" ON " + tables[i] + "." + joinOn[i] + "==" + tables[i + 1] + "." + joinOn[i]);
-			}
-		}
-
-		if ((where != null && criteria != null) && where.length == criteria.length) {
-			query += " WHERE ";
-			for (int y = 0; y < where.length; y++) {
-				if (y != 0) {
-					query += " AND ";
-				}
-				query += where[y] + "=?";
-			}
-		}
-		query += ";";
-
-		PreparedStatement pstmt = null;
-		pstmt = DB.conn.prepareStatement(query);
-		if ((where != null && criteria != null) && where.length == criteria.length) {
-			for (int i = 0; i < criteria.length; i++) {
-				pstmt.setObject(i + 1, criteria[i]);
-			}
-		}
+	public void executeQuery( PreparedStatement pstmt) throws SQLException {
+		
 		ResultSet rs = pstmt.executeQuery();
-		this.columnNames = new String[fields.length];
-		this.columnType = new String[fields.length];
+		ResultSetMetaData rsmd = rs.getMetaData();
+		int colcount = rsmd.getColumnCount();
+		this.columnNames = new String[colcount];
+		this.columnType = new String[colcount];
 		if (rs != null) {
 			rs.last();
-			this.data = new Object[rs.getRow()][fields.length];
+			this.data = new Object[rs.getRow()][colcount];
 			rs.beforeFirst();
 		}
-		for (int k = 0; k < fields.length; k++) {
+		for (int k = 0; k < colcount; k++) {
 			columnNames[k] = rs.getMetaData().getColumnLabel(k + 1);
 			columnType[k] = rs.getMetaData().getColumnClassName(k + 1);
 		}
 		for (int i = 0; rs.next(); i++) {
-			for (int j = 0; j < fields.length; j++) {
+			for (int j = 0; j < colcount; j++) {
 				this.data[i][j] = rs.getObject(j + 1);
+				System.out.println(this.data[i][j]);
 			}
 		}
-		DB.closeDB();
-
 		return;
 
 	}
+
 }
