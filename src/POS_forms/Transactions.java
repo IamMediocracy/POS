@@ -31,20 +31,20 @@ public class Transactions extends UIPanels {
 	// Generated SVD
 	private static final long serialVersionUID = -203858668229154039L;
 
-	private static boolean priceCheck = false;
+	private static boolean inquiry = false;
 
-	JButton btnOverride = new JButton("OVERRIDE");
-	JButton btnVoid = new JButton("VOID");
-	JButton btnPay = new JButton("PAY");
+	JButton btnOverride = new JButton(new ImageIcon(POSMain.class.getResource("/media/Override.png")));
+	JButton btnVoid = new JButton(new ImageIcon(POSMain.class.getResource("/media/Void.png")));
+	JButton btnPay = new JButton(new ImageIcon(POSMain.class.getResource("/media/Pay.png")));
 
-	JButton btnCash = new JButton("Cash");
-	JButton btnCheck = new JButton("Check");
-	JButton btnEFT = new JButton("Credit/Debit Card");
-	JButton btnCancel = new JButton("Cancel");
+	JButton btnCash = new JButton(new ImageIcon(POSMain.class.getResource("/media/Cash.png")));
+	JButton btnCheck = new JButton(new ImageIcon(POSMain.class.getResource("/media/Check.png")));
+	JButton btnEFT = new JButton(new ImageIcon(POSMain.class.getResource("/media/CreditDebit.png")));
+	JButton btnCancel = new JButton(new ImageIcon(POSMain.class.getResource("/media/Cancel.png")));
 
-	JButton btnPaper = new JButton("Paper");
-	JButton btnEmail = new JButton("Email");
-	JButton btnNone = new JButton("No Receipt");
+	JButton btnPaper = new JButton(new ImageIcon(POSMain.class.getResource("/media/Paper.png")));
+	JButton btnEmail = new JButton(new ImageIcon(POSMain.class.getResource("/media/Email.png")));
+	JButton btnNone = new JButton(new ImageIcon(POSMain.class.getResource("/media/NoReceipt.png")));
 
 	JButton btnSelTrans = new JButton(new ImageIcon(POSMain.class.getResource("/media/ResumeTransaction.png")));
 	JButton btnCancelTrans = new JButton(new ImageIcon(POSMain.class.getResource("/media/CancelTransaction.png")));
@@ -56,9 +56,8 @@ public class Transactions extends UIPanels {
 
 	JFormattedTextField amountField;
 	NumberFormat paymentFormat;
-	JButton btnPriceCheck = new JButton(new ImageIcon(POSMain.class.getResource("/media/test.png")));
-	JButton btnQuantityOnHand = new JButton("QOH\r\n");
-	JButton btnRefund = new JButton("REFUND");
+	JButton btnItemInquiry = new JButton(new ImageIcon(POSMain.class.getResource("/media/Inquiry.png")));
+	JButton btnRefund = new JButton(new ImageIcon(POSMain.class.getResource("/media/Refund.png")));
 	private final JTextField txt_identifier = new JTextField();
 
 	private String userID;
@@ -97,8 +96,6 @@ public class Transactions extends UIPanels {
 		gbc_txt_identifier.gridx = 0;
 		gbc_txt_identifier.gridy = 0;
 		pnl_table_info.add(txt_identifier, gbc_txt_identifier);
-		
-		buttons_panel.setLayout(new GridLayout(0, 1, 0, 0));
 
 		try {
 			lookupTransaction(trnsID, false, false);
@@ -140,23 +137,75 @@ public class Transactions extends UIPanels {
 			}
 		});
 
-		btnPriceCheck.addActionListener(new ActionListener() {
+		btnItemInquiry.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (priceCheck)
-					priceCheck = false;
+				if (inquiry)
+					inquiry = false;
 				else
-					priceCheck = true;
+					inquiry = true;
 			}
 		});
 
-		btnQuantityOnHand.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		btnItemInquiry.setBorder(null);
+		btnItemInquiry.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/Inquiry_selected.png")));
+		btnItemInquiry.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/Inquiry_selected_current.png")));
+		
+		//set border null
+		btnOverride.setBorder(null);
+		btnVoid.setBorder(null);
+		btnPay.setBorder(null);
 
-		btnPriceCheck.setBorder(null);
-		btnPriceCheck.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/test_selected.png")));
-		btnPriceCheck.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/test_selected_current.png")));
+		btnCash.setBorder(null);
+		btnCheck.setBorder(null);
+		btnEFT.setBorder(null);
+		btnRefund.setBorder(null);
+		btnCancel.setBorder(null);
+
+		btnPaper.setBorder(null);
+		btnEmail.setBorder(null);
+		btnNone.setBorder(null);
+
+		btnSelTrans.setBorder(null);
+		btnCancelTrans.setBorder(null);
+		btnNewTrans.setBorder(null);
+		
+		//set rollover icon
+		btnOverride.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/Override_selected.png")));
+		btnVoid.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/Void_selected.png")));
+		btnPay.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/Pay_selected.png")));
+
+		btnCash.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/Cash_selected.png")));
+		btnCheck.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/Check_selected.png")));
+		btnEFT.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/CreditDebit_selected.png")));
+		btnRefund.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/Refund_selected.png")));
+		btnCancel.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/Cancel_selected.png")));
+
+		btnPaper.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/Paper_selected.png")));
+		btnEmail.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/Email_selected.png")));
+		btnNone.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/NoReceipt_selected.png")));
+
+		btnSelTrans.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/ResumeTransaction_selected.png")));
+		btnCancelTrans.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/CancelTransaction_selected.png")));
+		btnNewTrans.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/NewTransaction_selected.png")));
+		
+		// set pressed icon
+		btnOverride.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/Override_selected_current.png")));
+		btnVoid.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/Void_selected_current.png")));
+		btnPay.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/Pay_selected_current.png")));
+
+		btnCash.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/Cash_selected_current.png")));
+		btnCheck.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/Check_selected_current.png")));
+		btnEFT.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/CreditDebit_selected_current.png")));
+		btnRefund.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/Refund_selected_current.png")));
+		btnCancel.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/Cancel_selected_current.png")));
+
+		btnPaper.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/Paper_selected_current.png")));
+		btnEmail.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/Email_selected_current.png")));
+		btnNone.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/NoReceipt_selected_current.png")));
+
+		btnSelTrans.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/ResumeTransaction_selected_current.png")));
+		btnCancelTrans.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/CancelTransaction_selected_current.png")));
+		btnNewTrans.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/NewTransaction_selected_current.png")));
 
 		// Payment Buttons
 		addReceiptListener(btnCash);
@@ -190,9 +239,6 @@ public class Transactions extends UIPanels {
 			}
 		});
 
-		btnCancelTrans.setBorder(null);
-		btnCancelTrans.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/test_selected.png")));
-		btnCancelTrans.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/test_selected_current.png")));
 		btnCancelTrans.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -219,8 +265,7 @@ public class Transactions extends UIPanels {
 
 		buttons_panel.add(btnOverride);
 		buttons_panel.add(btnVoid);
-		buttons_panel.add(btnQuantityOnHand);
-		buttons_panel.add(btnPriceCheck);
+		buttons_panel.add(btnItemInquiry);
 		buttons_panel.add(btnRefund);
 		buttons_panel.add(btnPay);
 
@@ -265,7 +310,7 @@ public class Transactions extends UIPanels {
 	public void itemScanned(String identifier) {
 		try {
 			DB DB = new DB();
-			if (!priceCheck) {
+			if (!inquiry) {
 				SelectBuilder sqlBuilder = new SelectBuilder().column("itm_id AS 'UPC'").column("itm_name AS 'Item'")
 						.column("itm_price AS 'Price'").from("item").where("itm_id = ?");
 				PreparedStatement pstmt = DB.conn.prepareStatement(sqlBuilder.toString());
@@ -336,6 +381,7 @@ public class Transactions extends UIPanels {
 
 	public void selectTransButtons() {
 		buttons_panel.removeAll();
+		buttons_panel.setLayout(new GridLayout(3, 1, 0, 0));
 
 		buttons_panel.add(btnSelTrans);
 		buttons_panel.add(btnCancelTrans);
