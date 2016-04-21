@@ -27,17 +27,13 @@ public class Transfer extends UIPanels {
 		tablepane.setBounds(111, 5, 2, 2);
 		pnl_table.setLayout(null);
 
-		table = new JTable();
-		table.setBounds(10, 5, 205, 134);
-		pnl_table.add(table);
 
 		DB DB;
 		try {
 			DB = new DB();
 			connection = DB.conn;
-
-			buttons_panel.add(btnViewCurrentAmounts);
-
+			
+			JButton btnViewCurrentAmounts = new JButton("View Current Amounts");
 			JButton btnWithdrawl = new JButton("Withdrawl");
 			btnWithdrawl.setVerticalAlignment(SwingConstants.TOP);
 			btnWithdrawl.setHorizontalAlignment(SwingConstants.LEFT);
@@ -62,9 +58,16 @@ public class Transfer extends UIPanels {
 
 				}
 			});
+			
+			buttons_panel.add(btnViewCurrentAmounts);
+			
 			buttons_panel.add(btnWithdrawl);
 
 			withdrawlAMT = new JTextField();
+			withdrawlAMT.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+				}
+			});
 			withdrawlAMT.setColumns(10);
 			buttons_panel.add(withdrawlAMT);
 
@@ -96,7 +99,7 @@ public class Transfer extends UIPanels {
 			buttons_panel.add(depositAMT);
 			depositAMT.setColumns(10);
 
-			btnViewCurrentAmounts = new JButton("View Current Amounts");
+			
 			btnViewCurrentAmounts.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
