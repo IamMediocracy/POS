@@ -46,7 +46,7 @@ public class Transactions extends UIPanels {
 	JButton btnNone = new JButton("No Receipt");
 
 	JButton btnSelTrans = new JButton("Resume Transaction");
-	JButton btnCancelTrans = new JButton("Cancel Transaction");
+	JButton btnCancelTrans = new JButton(new ImageIcon(POSMain.class.getResource("/media/Long Button test.png")));
 	JButton btnNewTrans = new JButton("Start New Transaction");
 
 	JLabel lblName = new JLabel();
@@ -70,8 +70,9 @@ public class Transactions extends UIPanels {
 		pnl_table.setBackground(Color.LIGHT_GRAY);
 		buttons_panel.setBackground(Color.BLUE);
 
+		setButtonProperties();
+
 		selectTransButtons();
-		// setManipButtons();
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 1, 1, 1 };
@@ -105,18 +106,8 @@ public class Transactions extends UIPanels {
 
 	}
 
-	public void setManipButtons() {
-		txt_identifier.requestFocus();
-		buttons_panel.removeAll();
-		buttons_panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		btnOverride.setFont(new Font("Tahoma", Font.BOLD, 12));
-		buttons_panel.add(btnOverride);
-
-		btnVoid.setFont(new Font("Tahoma", Font.BOLD, 12));
-
-		btnVoid.setBounds(this.buttons_panel.getBounds().width / 2 - 150,
-				this.buttons_panel.getBounds().height / 2 - 200, 100, 100);
-
+	public void setButtonProperties() {
+		// Main Transation buttons
 		btnVoid.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -132,10 +123,7 @@ public class Transactions extends UIPanels {
 			}
 		});
 
-		btnPay.setFont(new Font("Tahoma", Font.BOLD, 12));
-
 		btnPay.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setPayButtons();
@@ -143,14 +131,11 @@ public class Transactions extends UIPanels {
 		});
 
 		btnCancel.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setManipButtons();
 			}
 		});
-
-		buttons_panel.add(btnVoid);
 
 		btnPriceCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -160,38 +145,17 @@ public class Transactions extends UIPanels {
 					priceCheck = true;
 			}
 		});
-		// btnPriceCheck.setForeground(Color.BLACK);
-		btnPriceCheck.setBorder(null);
-		btnPriceCheck.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/test_selected.png")));
-		btnPriceCheck.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/test_selected_current.png")));
-		// btnPriceCheck.setFont(new Font("Tahoma", Font.BOLD, 12));
 
-		btnQuantityOnHand.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnQuantityOnHand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
 
-		buttons_panel.add(btnQuantityOnHand);
+		btnPriceCheck.setBorder(null);
+		btnPriceCheck.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/test_selected.png")));
+		btnPriceCheck.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/test_selected_current.png")));
 
-		buttons_panel.add(btnPriceCheck);
-		btnRefund.setFont(new Font("Tahoma", Font.BOLD, 12));
-
-		buttons_panel.add(btnRefund);
-		buttons_panel.add(btnPay);
-
-		buttons_panel.validate();
-		buttons_panel.repaint();
-	}
-
-	public void setPayButtons() {
-		buttons_panel.removeAll();
-
-		buttons_panel.add(btnCash);
-		buttons_panel.add(btnCheck);
-		buttons_panel.add(btnEFT);
-		buttons_panel.add(btnCancel);
-
+		// Payment Buttons
 		addReceiptListener(btnCash);
 		addReceiptListener(btnCheck);
 		addReceiptListener(btnEFT);
@@ -208,6 +172,66 @@ public class Transactions extends UIPanels {
 
 			}
 		});
+
+		// Previous transactions buttons
+		btnSelTrans.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					setTransaction();
+					setManipButtons();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		btnCancelTrans.setBorder(null);
+		btnCancelTrans.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/test_selected.png")));
+		btnCancelTrans.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/test_selected_current.png")));
+		btnCancelTrans.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO DELETE FROM transaction WHERE trns_id = Transaction#;
+			}
+		});
+
+		btnNewTrans.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					startNewTransaction();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+	}
+
+	public void setManipButtons() {
+		txt_identifier.requestFocus();
+		buttons_panel.removeAll();
+
+		buttons_panel.add(btnOverride);
+		buttons_panel.add(btnVoid);
+		buttons_panel.add(btnQuantityOnHand);
+		buttons_panel.add(btnPriceCheck);
+		buttons_panel.add(btnRefund);
+		buttons_panel.add(btnPay);
+
+		buttons_panel.validate();
+		buttons_panel.repaint();
+	}
+
+	public void setPayButtons() {
+		buttons_panel.removeAll();
+
+		buttons_panel.add(btnCash);
+		buttons_panel.add(btnCheck);
+		buttons_panel.add(btnEFT);
+		buttons_panel.add(btnCancel);
 		buttons_panel.add(amountField);
 
 		buttons_panel.validate();
@@ -247,12 +271,9 @@ public class Transactions extends UIPanels {
 				if (data != null) {
 					try {
 						insertRow();
-
-						// setTableInfo();
-						model.addRow(data[0]);
 					} catch (SQLException e) {
 						DB.conn.rollback();
-//					} catch (ClassNotFoundException e) {
+						// } catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
@@ -313,39 +334,6 @@ public class Transactions extends UIPanels {
 	public void selectTransButtons() {
 		buttons_panel.removeAll();
 
-		btnSelTrans.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnSelTrans.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					setTransaction();
-					setManipButtons();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		btnCancelTrans.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnCancelTrans.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO DELETE FROM transaction WHERE trns_id = Transaction#;
-			}
-		});
-		btnNewTrans.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnNewTrans.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					startNewTransaction();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-
 		buttons_panel.add(btnSelTrans);
 		buttons_panel.add(btnCancelTrans);
 		buttons_panel.add(btnNewTrans);
@@ -370,9 +358,6 @@ public class Transactions extends UIPanels {
 			pstmt.setInt(1, trnsID);
 			executeQuery(pstmt);
 			setTableInfo();
-			// } catch (SQLException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -413,7 +398,12 @@ public class Transactions extends UIPanels {
 		pstmt.setString(2, data[0][0].toString());
 		pstmt.setObject(3, data[0][2]);
 
-		// ResultSet rs = pstmt.executeQuery();
+		pstmt.execute();
+
+		DB.closeDB();
+
+		model.addRow(data[0]);
+
 		return;
 	}
 
