@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 import POS_classes.DB;
 import POS_classes.DBTableModel;
 import POS_classes.UIPanels;
+import POS_utils.SelectBuilder;
 import net.proteanit.sql.DbUtils;
 
 public class Transfer extends UIPanels {
@@ -41,6 +42,8 @@ public class Transfer extends UIPanels {
 				public void actionPerformed(ActionEvent arg0) {
 
 					try {
+						
+						// Need to change to Select builder
 						String query = "update running_totals set money_total = money_total + '"
 								+ withdrawlAMT.getText() + "' WHERE location_name ='drawer1' "
 								+ "UNION update running_totals set money_total = money_total - '"
@@ -52,7 +55,9 @@ public class Transfer extends UIPanels {
 						pst.close();
 
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
+						
+						JOptionPane.showMessageDialog(null, "Error: Please Check Withdrawal Amount");
+						
 						e.printStackTrace();
 					}
 
@@ -76,6 +81,8 @@ public class Transfer extends UIPanels {
 				public void actionPerformed(ActionEvent e) {
 
 					try {
+						
+						// Need to change to Select builder
 						String query = "update running_totals set money_total = money_total - '" + depositAMT.getText()
 								+ "' WHERE location_name ='drawer1' "
 								+ "UNION update running_totals set money_total = money_total + '" + depositAMT.getText()
@@ -87,7 +94,7 @@ public class Transfer extends UIPanels {
 						pst.close();
 
 					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null, "Error: Please Check Deposit Amount");
 						e1.printStackTrace();
 					}
 
@@ -104,14 +111,24 @@ public class Transfer extends UIPanels {
 				public void actionPerformed(ActionEvent e) {
 
 					try {
-						String query = "select * from running_totals";
-						PreparedStatement pst = connection.prepareStatement(query);
-						ResultSet rs = pst.executeQuery();
-						table.setModel(DbUtils.resultSetToTableModel(rs));
+						
+							SelectBuilder sqlBuilder = new SelectBuilder().column("Money_total").column("location_name")
+									.from("running_totals").where("location_name = 'safe' AND 'drawer1'");
+							PreparedStatement pst = DB.conn.prepareStatement(sqlBuilder.toString());
+							executeQuery(pst);
+						
+						// need to figure out how to see table in panel	
+							
+							//ResultSet rs = pst.executeQuery();
+						//table.setModel(DbUtils.resultSetToTableModel(rs));
+						
+						JOptionPane.showMessageDialog(null, "Worked");
 						pst.close();
-						rs.close();
+						
+					//	rs.close();
+						
 					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null, "Error: Cannot Connect to Database");
 						e1.printStackTrace();
 					}
 				}
