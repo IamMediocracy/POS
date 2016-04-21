@@ -45,9 +45,9 @@ public class Transactions extends UIPanels {
 	JButton btnEmail = new JButton("Email");
 	JButton btnNone = new JButton("No Receipt");
 
-	JButton btnSelTrans = new JButton("Resume Transaction");
-	JButton btnCancelTrans = new JButton(new ImageIcon(POSMain.class.getResource("/media/Long Button test.png")));
-	JButton btnNewTrans = new JButton("Start New Transaction");
+	JButton btnSelTrans = new JButton(new ImageIcon(POSMain.class.getResource("/media/ResumeTransaction.png")));
+	JButton btnCancelTrans = new JButton(new ImageIcon(POSMain.class.getResource("/media/CancelTransaction.png")));
+	JButton btnNewTrans = new JButton(new ImageIcon(POSMain.class.getResource("/media/NewTransaction.png")));
 
 	JLabel lblName = new JLabel();
 	JLabel lblPrice = new JLabel();
