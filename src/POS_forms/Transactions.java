@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 import POS_classes.DB;
 import POS_classes.UIPanels;
 import POS_utils.SelectBuilder;
+import java.awt.GridLayout;
 
 public class Transactions extends UIPanels {
 
@@ -96,6 +97,8 @@ public class Transactions extends UIPanels {
 		gbc_txt_identifier.gridx = 0;
 		gbc_txt_identifier.gridy = 0;
 		pnl_table_info.add(txt_identifier, gbc_txt_identifier);
+		
+		buttons_panel.setLayout(new GridLayout(0, 1, 0, 0));
 
 		try {
 			lookupTransaction(trnsID, false, false);
