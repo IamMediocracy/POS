@@ -307,7 +307,6 @@ public class Transactions extends UIPanels {
 	}
 
 	public void setPayButtons() {
-		buttons_panel.setLayout(new GridLayout(3, 1, 0, 0));
 		buttons_panel.removeAll();
 
 		buttons_panel.add(btnCash);

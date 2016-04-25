@@ -52,7 +52,7 @@ public class Transfer extends UIPanels {
 				}
 			});
 			
-			buttons_panel.add(btnViewCurrentAmounts);
+//			buttons_panel.add(btnViewCurrentAmounts);
 			
 			buttons_panel.add(btnWithdrawl);
 
@@ -119,11 +119,19 @@ public class Transfer extends UIPanels {
 					}
 				}
 			});
+			
+			SelectBuilder sqlBuilder = new SelectBuilder().column("Money_total").column("location_name")
+					.from("running_totals").where("location_name = 'safe' OR location_name = 'drawer1'");
+			PreparedStatement pst = DB.conn.prepareStatement(sqlBuilder.toString());
+			executeQuery(pst);
+			super.setTableInfo();
+			pst.close();
 
-		} catch(SQLException e2) {
+		} catch(SQLException | ClassNotFoundException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
+		
 	}
 
 	private static final long serialVersionUID = 6047803356240229042L;
