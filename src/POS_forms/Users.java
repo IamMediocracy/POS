@@ -5,12 +5,27 @@ import java.sql.SQLException;
 
 import POS_classes.DB;
 import POS_classes.UIPanels;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+import javax.swing.JRadioButton;
 
 public class Users extends UIPanels {
 
 	private static final long serialVersionUID = 7686999830925783105L;
 
 	public Users() {
+		
+		JButton btnSupervisor = new JButton("Supervisor");
+		buttons_panel.add(btnSupervisor);
+		
+		JButton btnManager = new JButton("Manager");
+		buttons_panel.add(btnManager);
+		
+		JRadioButton rdMgrPromote = new JRadioButton("Promote");
+		buttons_panel.add(rdMgrPromote);
+		
+		JRadioButton rdMgrDemote = new JRadioButton("Demote");
+		buttons_panel.add(rdMgrDemote);
 
 	}
 
@@ -26,5 +41,4 @@ public class Users extends UIPanels {
 		// TODO Auto-generated method stub
 
 	}
-
 }

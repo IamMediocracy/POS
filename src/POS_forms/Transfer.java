@@ -35,7 +35,7 @@ public class Transfer extends UIPanels {
 			connection = DB.conn;
 			
 			JButton btnViewCurrentAmounts = new JButton("View Current Amounts");
-			JButton btnWithdrawl = new JButton("Withdrawl");
+			JButton btnWithdrawl = new JButton("Withdrawal");
 			btnWithdrawl.setVerticalAlignment(SwingConstants.TOP);
 			btnWithdrawl.setHorizontalAlignment(SwingConstants.LEFT);
 			btnWithdrawl.addActionListener(new ActionListener() {
