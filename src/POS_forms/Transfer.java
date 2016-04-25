@@ -33,10 +33,12 @@ public class Transfer extends UIPanels {
 					try {
 						
 						String query = "update running_totals set money_total = money_total + "
-								+ withdrawlAMT.getText() + " WHERE location_name ='drawer1' "
-								+ "UNION update running_totals set money_total = money_total - "
+								+ withdrawlAMT.getText() + " WHERE location_name ='drawer1' ";
+						String query2 =	"update running_totals set money_total = money_total - "
 								+ withdrawlAMT.getText() + " WHERE location_name ='safe' ";
 						PreparedStatement pst = DB.conn.prepareStatement(query);
+						pst.execute();
+						pst = DB.conn.prepareStatement(query2);
 						pst.execute();
 						JOptionPane.showMessageDialog(null, "Funds withdrawn from Safe");
 
@@ -71,11 +73,15 @@ public class Transfer extends UIPanels {
 					try {
 						
 						String query = "update running_totals set money_total = money_total - " + depositAMT.getText()
-								+ " WHERE location_name ='drawer1' "
-								+ "UNION update running_totals set money_total = money_total + " + depositAMT.getText()
+								+ " WHERE location_name ='drawer1' ";
+								
+						String query2 =	"update running_totals set money_total = money_total + " + depositAMT.getText()
 								+ " WHERE location_name ='safe' ";
 						PreparedStatement pst;
+						
 						pst = DB.conn.prepareStatement(query);
+						pst.execute();
+						pst = DB.conn.prepareStatement(query2);
 						pst.execute();
 						JOptionPane.showMessageDialog(null, "Funds deposited to Safe");
 						pst.close();
