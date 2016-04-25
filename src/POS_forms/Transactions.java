@@ -97,9 +97,9 @@ public class Transactions extends UIPanels {
 		GridBagConstraints gbc_info = new GridBagConstraints();
 		gbc_info.gridx = GridBagConstraints.RELATIVE;
 		gbc_info.gridy = 2;
-		pnl_table_info.add(lblName,gbc_info);
-		pnl_table_info.add(lblPrice,gbc_info);
-		pnl_table_info.add(lblQuantity,gbc_info);
+		pnl_table_info.add(lblName, gbc_info);
+		pnl_table_info.add(lblPrice, gbc_info);
+		pnl_table_info.add(lblQuantity, gbc_info);
 
 		try {
 			lookupTransaction(trnsID, false, false);
@@ -125,7 +125,7 @@ public class Transactions extends UIPanels {
 			public void actionPerformed(ActionEvent e) {
 				int selRow = table.getSelectedRow();
 				if (selRow > -1) {
-					
+
 					model.removeRow(selRow);
 					int rc = table.getRowCount();
 					if (rc > 0) {
@@ -134,8 +134,8 @@ public class Transactions extends UIPanels {
 							table.changeSelection(selRow, 0, false, false);
 							table.changeSelection(selRow, 3, true, true);
 						} else {
-							table.changeSelection(rc-1, 0, false, false);
-							table.changeSelection(rc-1, 3, true, true);
+							table.changeSelection(rc - 1, 0, false, false);
+							table.changeSelection(rc - 1, 3, true, true);
 						}
 					}
 				}
@@ -236,12 +236,16 @@ public class Transactions extends UIPanels {
 		btnNewTrans.setBorder(null);
 
 		btnSelTrans.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/ResumeTransaction_selected.png")));
-		btnCancelTrans.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/CancelTransaction_selected.png")));
+		btnCancelTrans
+				.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/CancelTransaction_selected.png")));
 		btnNewTrans.setRolloverIcon(new ImageIcon(POSMain.class.getResource("/media/NewTransaction_selected.png")));
 
-		btnSelTrans.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/ResumeTransaction_selected_current.png")));
-		btnCancelTrans.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/CancelTransaction_selected_current.png")));
-		btnNewTrans.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/NewTransaction_selected_current.png")));
+		btnSelTrans.setPressedIcon(
+				new ImageIcon(POSMain.class.getResource("/media/ResumeTransaction_selected_current.png")));
+		btnCancelTrans.setPressedIcon(
+				new ImageIcon(POSMain.class.getResource("/media/CancelTransaction_selected_current.png")));
+		btnNewTrans
+				.setPressedIcon(new ImageIcon(POSMain.class.getResource("/media/NewTransaction_selected_current.png")));
 
 		btnSelTrans.addActionListener(new ActionListener() {
 			@Override
@@ -259,7 +263,19 @@ public class Transactions extends UIPanels {
 		btnCancelTrans.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO DELETE FROM transaction WHERE trns_id = Transaction#;
+				DB DB;
+				try {
+					DB = new DB();
+					String sql = "DELETE FROM transaction WHERE trns_id =?";
+					int trnsID = (int) model.getValueAt(table.getSelectedRow(), 0);
+					PreparedStatement pstmt = DB.conn.prepareStatement(sql);
+					pstmt.setInt(1, trnsID);
+					pstmt.execute();
+					DB.closeDB();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
@@ -410,6 +426,7 @@ public class Transactions extends UIPanels {
 			startNewTransaction();
 			lookupTransaction(trnsID, hold, finalized);
 		}
+		DB.closeDB();
 
 	}
 
@@ -429,6 +446,7 @@ public class Transactions extends UIPanels {
 			pstmt.setInt(1, trnsID);
 			executeQuery(pstmt);
 			setTableInfo();
+			DB.closeDB();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -455,6 +473,7 @@ public class Transactions extends UIPanels {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		DB.closeDB();
 
 	}
 
