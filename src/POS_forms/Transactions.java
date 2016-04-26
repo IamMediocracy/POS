@@ -51,9 +51,9 @@ public class Transactions extends UIPanels {
 	JButton btnCancelTrans = new JButton(new ImageIcon(POSMain.class.getResource("/media/CancelTransaction.png")));
 	JButton btnNewTrans = new JButton(new ImageIcon(POSMain.class.getResource("/media/NewTransaction.png")));
 
-	JLabel lblName = new JLabel("");
-	JLabel lblPrice = new JLabel("");
-	JLabel lblQuantity = new JLabel("");
+	JLabel lblName = new JLabel();
+	JLabel lblPrice = new JLabel();
+	JLabel lblQuantity = new JLabel();
 
 	JFormattedTextField amountField;
 	NumberFormat paymentFormat;
@@ -93,12 +93,6 @@ public class Transactions extends UIPanels {
 		gbc_txt_identifier.gridx = 0;
 		gbc_txt_identifier.gridy = 0;
 		pnl_table_info.add(txt_identifier, gbc_txt_identifier);
-		GridBagConstraints gbc_info = new GridBagConstraints();
-		gbc_info.gridx = GridBagConstraints.RELATIVE;
-		gbc_info.gridy = 2;
-		pnl_table_info.add(lblName, gbc_info);
-		pnl_table_info.add(lblPrice, gbc_info);
-		pnl_table_info.add(lblQuantity, gbc_info);
 
 		try {
 			lookupTransaction(trnsID, false, false);
@@ -161,6 +155,7 @@ public class Transactions extends UIPanels {
 					inquiry = false;
 				else
 					inquiry = true;
+				txt_identifier.requestFocus();
 			}
 		});
 
@@ -384,9 +379,15 @@ public class Transactions extends UIPanels {
 				pstmnt.setString(1, identifier);
 				ResultSet rs = pstmnt.executeQuery();
 				if (rs.next()) {
-					lblName.setText(rs.getString("itm_name"));
-					lblPrice.setText(rs.getString("itm_price"));
-					lblQuantity.setText(rs.getString("itm_quantity"));
+					lblName = new JLabel(rs.getString("itm_name"));
+					lblPrice = new JLabel(rs.getString("itm_price"));
+					lblQuantity = new JLabel(rs.getString("itm_quantity"));
+					GridBagConstraints gbc_info = new GridBagConstraints();
+					gbc_info.gridx = GridBagConstraints.RELATIVE;
+					gbc_info.gridy = 2;
+					pnl_table_info.add(lblName,gbc_info);
+					pnl_table_info.add(lblPrice,gbc_info);
+					pnl_table_info.add(lblQuantity,gbc_info);
 				}
 			}
 			DB.closeDB();
