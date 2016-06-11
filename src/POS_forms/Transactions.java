@@ -365,7 +365,6 @@ public class Transactions extends UIPanels {
 						insertRow();
 					} catch (SQLException e) {
 						DB.conn.rollback();
-						// } catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
@@ -434,11 +433,6 @@ public class Transactions extends UIPanels {
 	public void setTransaction() throws SQLException {
 		trnsID = (int) model.getValueAt(table.getSelectedRow(), 0);
 		try {
-			// selectRows(new String[]{"item","receipt_line"/*,"transaction"*/},
-			// new String[]{"itm_id"}, new String[]{"rct_line AS 'Line'","itm_id
-			// AS 'UPC'",/*"itm_name AS 'Name'",*/"itm_price AS 'Price'"}, new
-			// String[]{"trns_id"}, new Object[]{trnsID});
-			// String sql = "Select item_id, "
 			SelectBuilder sqlBuilder = new SelectBuilder().column("item.itm_id AS 'UPC'")
 					.column("item.itm_name AS 'Name'").column("receipt_line.rct_line_price AS 'Price'").from("item")
 					.join("receipt_line").where("item.itm_id = receipt_line.itm_id").where("receipt_line.trns_id=?");

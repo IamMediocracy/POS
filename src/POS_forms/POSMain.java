@@ -60,7 +60,7 @@ public class POSMain {
 	// Panel that is set as the JScrollView's viewport
 	private final JPanel viewport_panel = new JPanel();
 
-	// The scroll pane, holds the non-static hubs
+	// The scroll pane, holds the dynamic hubs
 	JScrollPane scrollPane = new JScrollPane();
 
 	private final JPanel panel_1 = new JPanel();
@@ -108,7 +108,6 @@ public class POSMain {
 		top_panel.setLayout(null);
 		panel.add(top_panel);
 
-		// JButton btn_logout = new JButton(data.getFirstName());
 		JButton btn_logout = new JButton(data.getFirstName());
 		btn_logout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

@@ -100,6 +100,7 @@ public abstract class UIPanels extends JPanel {
 		for (int k = 0; k < colcount; k++) {
 			columnNames[k] = rs.getMetaData().getColumnLabel(k + 1);
 			columnType[k] = rs.getMetaData().getColumnClassName(k + 1);
+//			System.out.println(columnType[k]);
 		}
 		for (int i = 0; rs.next(); i++) {
 			for (int j = 0; j < colcount; j++) {
